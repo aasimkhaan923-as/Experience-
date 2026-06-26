@@ -10,7 +10,7 @@
             background-color: #0f172a;
             color: white;
             text-align: center;
-            padding: 30px 15px;
+            padding: 20px 15px;
             margin: 0;
         }
         .bot-box {
@@ -18,8 +18,7 @@
             border: 2px solid #3b82f6;
             padding: 20px;
             border-radius: 15px;
-            display: block;
-            max-width: 400px;
+            max-width: 450px;
             margin: 20px auto;
         }
         #time-display {
@@ -27,15 +26,15 @@
             color: #34d399;
             font-weight: bold;
         }
-        .quote-box {
-            border-color: #10b981;
-        }
+        .quote-box { border-color: #10b981; }
+        .log-box { border-color: #a855f7; background: #111827; }
+        
         #quote-display {
-            font-size: 16px;
+            font-size: 18px;
             color: #fbbf24;
-            font-style: italic;
+            font-weight: bold;
             margin-top: 10px;
-            line-height: 1.4;
+            line-height: 1.5;
         }
         button {
             background: #3b82f6;
@@ -47,61 +46,90 @@
             cursor: pointer;
             margin-top: 15px;
         }
-        button:hover {
-            background: #2563eb;
+        button:hover { background: #2563eb; }
+        
+        .log-list {
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            font-size: 13px;
         }
+        .log-item {
+            background: #1f2937;
+            padding: 8px;
+            margin-bottom: 5px;
+            border-left: 3px solid #a855f7;
+            border-radius: 4px;
+        }
+        .log-time { color: #a855f7; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <h1>🤖 آٹومیشن مشن: اسٹیپ 2</h1>
-    <p>عاصم بھائی، ہمارا بوٹ اب انٹرنیٹ سے لائیو ڈیٹا کھینچ رہا ہے!</p>
+    <h1>🤖 آٹومیشن مشن: دیسی اردو بوٹ</h1>
+    <p>عاصم بھائی، اب ہمارا بوٹ خالص اردو میں لائیو کام کرے گا!</p>
 
-    <!-- ٹاسک 1: ٹائم بوٹ -->
     <div class="bot-box">
-        <h3>🕒 بوٹ کا ٹاسک 1:</h3>
-        <p>بیک گراؤنڈ میں ہر سیکنڈ بعد ٹائم اپڈیٹ کرنا:</p>
+        <h3>🕒 بوٹ کا ٹاسک 1 (لائیو گھڑی):</h3>
         <div id="time-display">لوڈنگ...</div>
     </div>
-
-    <!-- ٹاسک 2: لائیو ڈیٹا انٹرنیٹ بوٹ -->
-    <div class="bot-box quote-box">
-        <h3>🌐 بوٹ کا ٹاسک 2 (انٹرنیٹ ڈیٹا):</h3>
-        <p>یہ بوٹ لائیو انٹرنیٹ API سے ڈیٹا کھینچ رہا ہے:</p>
-        <div id="quote-display">انٹرنیٹ سے ڈیٹا لایا جا رہا ہے...</div>
-        <button onclick="fetchLiveQuote()">ابھی نیا ڈیٹا لاؤ 🔄</button>
+        <div class="bot-box quote-box">
+        <h3>🌐 بوٹ کا ٹاسک 2 (اردو میسج بوٹ):</h3>
+        <div id="quote-display">بوٹ ڈیٹا لوڈ کر رہا ہے...</div>
+        <button onclick="fetchLiveUrduData()">نیا اردو میسج لاؤ 🔄</button>
     </div>
 
-    <script>
-        // 🕒 ٹاسک 1 کی لاجک (ٹائم اپڈیٹ)
+    <div class="bot-box log-box">
+        <h3>📋 بوٹ کا ٹاسک 3 (خودکار ہسٹری لاگ):</h3>
+        <p>بوٹ کا لائیو ریکارڈ یہاں خود بخود سیو ہو رہا ہے:</p>
+        <div class="log-list" id="log-container"></div>
+    </div>
+        <script>
+        // 🕒 ٹاسک 1: لائیو گھڑی
         function runTimeBot() {
-            const currentTime = new Date().toLocaleTimeString();
-            document.getElementById('time-display').innerText = currentTime;
+            document.getElementById('time-display').innerText = new Date().toLocaleTimeString();
         }
         setInterval(runTimeBot, 1000);
 
-        // 🌐 ٹاسک 2 کی لاجک (انٹرنیٹ سے خودکار ڈیٹا کھینچنا)
-        async function fetchLiveQuote() {
+        // 📝 عاصم بھائی کا دیسی اردو ڈیٹا بیس
+        const urduMessages = [
+            "Skincare Alert: Maxdif اور Skinoren کا کورس باقاعدگی سے جاری رکھیں، ناغہ نہیں کرنا! ✨",
+            "Motivation: محنت اتنی خاموشی سے کرو کہ کامیابی شور مچا دے! 🚀",
+            "App Concept: کھاتا ایپ کا نیا ڈیزائن بہت کلاسک لگ رہا ہے، عاصم بھائی۔ 📱",
+            "Skincare Tip: دھوپ میں نکلنے سے پہلے سن بلاک لگانا کبھی نہ بھولیں! ☀️",
+            "Coding Life: کوڈنگ میں غلطیوں سے ہی بندہ اصل ڈویلپر بنتا ہے، ہار نہیں ماننی! 💪",
+            "Worms Zone: کیڑے کو بڑا کرنا ہے تو لاجک کو اور پکا کرنا پڑے گا! 🐛",
+            "Reminder: آج کا ادھار یا آمدنی کھاتا ایپ میں وقت پر نوٹ کر لیں۔ 📋"
+        ];
+
+        // 🌐 ٹاسک 2 اور 3: خودکار اردو ڈیٹا اور لاگنگ
+        function fetchLiveUrduData() {
             const display = document.getElementById('quote-display');
-            display.innerText = "بوٹ انٹرنیٹ پر جا رہا ہے...";
+            const logContainer = document.getElementById('log-container');
             
-            try {
-                // یہ لائن ایک لائیو فری API (انٹرنیٹ سرور) سے ڈیٹا کھینچتی ہے
-                const response = await fetch('https://dummyjson.com/quotes/random');
-                const data = await response.json();
-                
-                // خودکار طریقے سے ڈیٹا کو سکرین پر فٹ کرنا
-                display.innerHTML = `"${data.quote}" <br><br><strong>— ${data.author}</strong>`;
-            } catch (error) {
-                display.innerText = "ڈیٹا لانے میں ناکامی! انٹرنیٹ چیک کریں۔";
-            }
+            // خودکار طریقے سے لسٹ میں سے کوئی ایک رینڈم جملہ چننا
+            const randomIndex = Math.floor(Math.random() * urduMessages.length);
+            const selectedMessage = urduMessages[randomIndex];
+            
+            // 1. اسکرین پر اردو میسج دکھایا
+            display.innerText = selectedMessage;
+            
+            // 2. 🤖 آٹومیشن ریکارڈ: لاگ میں خودکار انٹری
+            const logTime = new Date().toLocaleTimeString();
+            const newLog = document.createElement('div');
+            newLog.className = 'log-item';
+            newLog.innerHTML = `<span class="log-time">[${logTime}]</span> بوٹ نے کامیابی سے اردو الرٹ ریکارڈ کیا!`;
+            
+            // نیا لاگ سب سے اوپر دکھانے کے لیے
+            logContainer.insertBefore(newLog, logContainer.firstChild);
         }
 
-        // 🚀 جیسے ہی پیج لوڈ ہو، بوٹ پہلی بار انٹرنیٹ پر خود ہی جائے
-        fetchLiveQuote();
+        // پہلی بار چلانے کے لیے
+        fetchLiveUrduData();
 
-        // 🔄 ہر 10 سیکنڈ بعد بوٹ خود بخود نیا ڈیٹا انٹرنیٹ سے لائے گا
-        setInterval(fetchLiveQuote, 10000);
+        // 🔄 آٹومیشن جادو: ہر 10 سیکنڈ بعد خود بخود نیا اردو میسج لوڈ کرو!
+        setInterval(fetchLiveUrduData, 10000);
     </script>
 
 </body>
