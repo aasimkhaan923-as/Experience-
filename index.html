@@ -3,133 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>میرا پہلا آٹومیشن تجربہ</title>
+    <title>عاصم بھائی کا سمارٹ آٹومیشن ڈیش بورڈ</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #0f172a;
-            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
             text-align: center;
             padding: 20px 15px;
             margin: 0;
         }
-        .bot-box {
-            background: #1e293b;
-            border: 2px solid #3b82f6;
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .dashboard-card {
+            background: #111827;
+            border: 1px solid #1f2937;
             padding: 20px;
-            border-radius: 15px;
-            max-width: 450px;
-            margin: 20px auto;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        #time-display {
-            font-size: 24px;
-            color: #34d399;
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .stat-box {
+            background: #1f2937;
+            padding: 15px;
+            border-radius: 12px;
             font-weight: bold;
         }
-        .quote-box { border-color: #10b981; }
-        .log-box { border-color: #a855f7; background: #111827; }
+        .alert-red { border-left: 4px solid #ef4444; color: #f87171; }
+        .success-green { border-left: 4px solid #10b981; color: #34d399; }
         
-        #quote-display {
-            font-size: 18px;
-            color: #fbbf24;
-            font-weight: bold;
-            margin-top: 10px;
-            line-height: 1.5;
+        input, select {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            background: #1f2937;
+            border: 1px solid #374151;
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
         }
         button {
             background: #3b82f6;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 15px;
+            width: 95%;
+            margin-top: 10px;
+            font-size: 16px;
         }
         button:hover { background: #2563eb; }
         
-        .log-list {
+        .log-container {
             text-align: left;
             max-height: 200px;
             overflow-y: auto;
+            margin-top: 10px;
+        }
+        .log-card {
+            background: #1f2937;
             padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 8px;
             font-size: 13px;
         }
-        .log-item {
-            background: #1f2937;
-            padding: 8px;
-            margin-bottom: 5px;
-            border-left: 3px solid #a855f7;
-            border-radius: 4px;
-        }
-        .log-time { color: #a855f7; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <h1>🤖 آٹومیشن مشن: دیسی اردو بوٹ</h1>
-    <p>عاصم بھائی، اب ہمارا بوٹ خالص اردو میں لائیو کام کرے گا!</p>
+    <div class="container">
+        <h1>⚙️ سمارٹ کھاتا اسسٹنٹ (فیز ۱)</h1>
+        <p>عاصم بھائی، یہ سسٹم ڈیٹا مانیٹر کر کے بوٹ الرٹ فائر کرنے کے لیے تیار ہو رہا ہے۔</p>
+                <!-- لائیو اسٹیٹس مانیٹر -->
+        <div class="dashboard-card">
+            <h3>📊 لائیو سسٹم مانیٹر</h3>
+            <div class="status-grid">
+                <div class="stat-box success-green">
+                    <span>کل ادھار وصولی</span>
+                    <div id="total-income">0 PKR</div>
+                </div>
+                <div class="stat-box alert-red">
+                    <span>کل بقایا ادھار</span>
+                    <div id="total-pending">0 PKR</div>
+                </div>
+            </div>
+        </div>
 
-    <div class="bot-box">
-        <h3>🕒 بوٹ کا ٹاسک 1 (لائیو گھڑی):</h3>
-        <div id="time-display">لوڈنگ...</div>
+        <!-- ڈیٹا انٹری فارم -->
+        <div class="dashboard-card" style="border-color: #3b82f6;">
+            <h3>📝 نیا ادھار/وصولی لاگ کریں</h3>
+            <input type="text" id="person-name" placeholder="بندے کا نام لکھیں...">
+            <input type="number" id="amount" placeholder="رقم (Amount) لکھیں...">
+            <select id="transaction-type">
+                <option value="pending">ادھار دیا (Pending/بقايا)</option>
+                <option value="income">ادھار واپس ملا (Income)</option>
+            </select>
+            <button onclick="processTransaction()">ڈیٹا پروسیس کریں ⚡</button>
+        </div>
+
+        <!-- بوٹ لاگ مانیٹر -->
+        <div class="dashboard-card" style="border-color: #a855f7;">
+            <h3>🤖 بوٹ بیک اینڈ مانیٹر لاگ</h3>
+            <div class="log-container" id="bot-logs">
+                <div style="color: #9ca3af; text-align: center;">سسٹم الرٹس کے لیے تیار ہے...</div>
+            </div>
+        </div>
     </div>
-        <div class="bot-box quote-box">
-        <h3>🌐 بوٹ کا ٹاسک 2 (اردو میسج بوٹ):</h3>
-        <div id="quote-display">بوٹ ڈیٹا لوڈ کر رہا ہے...</div>
-        <button onclick="fetchLiveUrduData()">نیا اردو میسج لاؤ 🔄</button>
-    </div>
+      <script>
+        // لائیو ڈیٹا ہولڈرز
+        let totalIncome = 0;
+        let totalPending = 0;
 
-    <div class="bot-box log-box">
-        <h3>📋 بوٹ کا ٹاسک 3 (خودکار ہسٹری لاگ):</h3>
-        <p>بوٹ کا لائیو ریکارڈ یہاں خود بخود سیو ہو رہا ہے:</p>
-        <div class="log-list" id="log-container"></div>
-    </div>
-        <script>
-        // 🕒 ٹاسک 1: لائیو گھڑی
-        function runTimeBot() {
-            document.getElementById('time-display').innerText = new Date().toLocaleTimeString();
-        }
-        setInterval(runTimeBot, 1000);
+        function processTransaction() {
+            const name = document.getElementById('person-name').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value);
+            const type = document.getElementById('transaction-type').value;
+            const logContainer = document.getElementById('bot-logs');
 
-        // 📝 عاصم بھائی کا دیسی اردو ڈیٹا بیس
-        const urduMessages = [
-            "Skincare Alert: Maxdif اور Skinoren کا کورس باقاعدگی سے جاری رکھیں، ناغہ نہیں کرنا! ✨",
-            "Motivation: محنت اتنی خاموشی سے کرو کہ کامیابی شور مچا دے! 🚀",
-            "App Concept: کھاتا ایپ کا نیا ڈیزائن بہت کلاسک لگ رہا ہے، عاصم بھائی۔ 📱",
-            "Skincare Tip: دھوپ میں نکلنے سے پہلے سن بلاک لگانا کبھی نہ بھولیں! ☀️",
-            "Coding Life: کوڈنگ میں غلطیوں سے ہی بندہ اصل ڈویلپر بنتا ہے، ہار نہیں ماننی! 💪",
-            "Worms Zone: کیڑے کو بڑا کرنا ہے تو لاجک کو اور پکا کرنا پڑے گا! 🐛",
-            "Reminder: آج کا ادھار یا آمدنی کھاتا ایپ میں وقت پر نوٹ کر لیں۔ 📋"
-        ];
+            // ویلیڈیشن (چیکنگ)
+            if (name === "" || isNaN(amount) || amount <= 0) {
+                alert("برائے مہربانی صحیح نام اور رقم لکھیں!");
+                return;
+            }
 
-        // 🌐 ٹاسک 2 اور 3: خودکار اردو ڈیٹا اور لاگنگ
-        function fetchLiveUrduData() {
-            const display = document.getElementById('quote-display');
-            const logContainer = document.getElementById('log-container');
-            
-            // خودکار طریقے سے لسٹ میں سے کوئی ایک رینڈم جملہ چننا
-            const randomIndex = Math.floor(Math.random() * urduMessages.length);
-            const selectedMessage = urduMessages[randomIndex];
-            
-            // 1. اسکرین پر اردو میسج دکھایا
-            display.innerText = selectedMessage;
-            
-            // 2. 🤖 آٹومیشن ریکارڈ: لاگ میں خودکار انٹری
-            const logTime = new Date().toLocaleTimeString();
+            // لاجک پروسیسنگ
+            if (type === 'income') {
+                totalIncome += amount;
+                document.getElementById('total-income').innerText = totalIncome + " PKR";
+            } else {
+                totalPending += amount;
+                document.getElementById('total-pending').innerText = totalPending + " PKR";
+            }
+
+            // لائیو ٹائم اسٹیمپ
+            const timeStamp = new Date().toLocaleTimeString();
+
+            // 🤖 بوٹ الرٹ لاجک ٹرگر (اگر ادھار 2000  سے اوپر جائے تو الرٹ سسٹم ایکٹیو ہو)
+            let botAlertMessage = "";
+            if (type === 'pending' && amount >= 15000) {
+                botAlertMessage = `<span style="color: #ef4444; font-weight: bold;">⚠️ [⚠️ بوٹ الرٹ ٹرگر]: عاصم بھائی، ${name} کو ${amount} کا بڑا ادھار دیا گیا ہے! الرٹ میسج تیار ہے...</span>`;
+            } else {
+                botAlertMessage = `<span style="color: #34d399;">ℹ️ [سسٹم لاگ]: ${name} کا ${amount} PKR کا ریکارڈ محفوظ کر لیا گیا ہے۔</span>`;
+            }
+
+            // مانیٹر میں لاگ انٹری ڈالنا
             const newLog = document.createElement('div');
-            newLog.className = 'log-item';
-            newLog.innerHTML = `<span class="log-time">[${logTime}]</span> بوٹ نے کامیابی سے اردو الرٹ ریکارڈ کیا!`;
+            newLog.className = 'log-card';
+            newLog.innerHTML = `<strong>[${timeStamp}]</strong> ${botAlertMessage}`;
             
-            // نیا لاگ سب سے اوپر دکھانے کے لیے
+            // اگر پہلا عارضی میسج موجود ہے تو اسے ہٹائیں
+            if (logContainer.innerHTML.includes("سسٹم الرٹس کے لیے تیار ہے")) {
+                logContainer.innerHTML = "";
+            }
+            
             logContainer.insertBefore(newLog, logContainer.firstChild);
+
+            // ان پٹ فیلڈز صاف کریں
+            document.getElementById('person-name').value = "";
+            document.getElementById('amount').value = "";
         }
-
-        // پہلی بار چلانے کے لیے
-        fetchLiveUrduData();
-
-        // 🔄 آٹومیشن جادو: ہر 10 سیکنڈ بعد خود بخود نیا اردو میسج لوڈ کرو!
-        setInterval(fetchLiveUrduData, 10000);
     </script>
 
 </body>
