@@ -10,46 +10,98 @@
             background-color: #0f172a;
             color: white;
             text-align: center;
-            padding: 50px;
+            padding: 30px 15px;
+            margin: 0;
         }
         .bot-box {
             background: #1e293b;
             border: 2px solid #3b82f6;
             padding: 20px;
             border-radius: 15px;
-            display: inline-block;
-            margin-top: 20px;
+            display: block;
+            max-width: 400px;
+            margin: 20px auto;
         }
         #time-display {
             font-size: 24px;
             color: #34d399;
             font-weight: bold;
         }
+        .quote-box {
+            border-color: #10b981;
+        }
+        #quote-display {
+            font-size: 16px;
+            color: #fbbf24;
+            font-style: italic;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
     </style>
 </head>
 <body>
 
-    <h1>🤖 آٹومیشن مشن: شروع!</h1>
-    <p>عاصم بھائی، یہ ہمارا پہلا خودکار جاوا اسکرپٹ پروجیکٹ ہے۔</p>
+    <h1>🤖 آٹومیشن مشن: اسٹیپ 2</h1>
+    <p>عاصم بھائی، ہمارا بوٹ اب انٹرنیٹ سے لائیو ڈیٹا کھینچ رہا ہے!</p>
 
+    <!-- ٹاسک 1: ٹائم بوٹ -->
     <div class="bot-box">
-        <h3>🕒 بوٹ کا خودکار ٹاسک:</h3>
-        <p>یہ بوٹ بیک گراؤنڈ میں ہر سیکنڈ بعد ٹائم اپڈیٹ کر رہا ہے:</p>
+        <h3>🕒 بوٹ کا ٹاسک 1:</h3>
+        <p>بیک گراؤنڈ میں ہر سیکنڈ بعد ٹائم اپڈیٹ کرنا:</p>
         <div id="time-display">لوڈنگ...</div>
     </div>
 
-    <!-- 🧠 یہ ہے بوٹ کا دماغ (JavaScript) -->
+    <!-- ٹاسک 2: لائیو ڈیٹا انٹرنیٹ بوٹ -->
+    <div class="bot-box quote-box">
+        <h3>🌐 بوٹ کا ٹاسک 2 (انٹرنیٹ ڈیٹا):</h3>
+        <p>یہ بوٹ لائیو انٹرنیٹ API سے ڈیٹا کھینچ رہا ہے:</p>
+        <div id="quote-display">انٹرنیٹ سے ڈیٹا لایا جا رہا ہے...</div>
+        <button onclick="fetchLiveQuote()">ابھی نیا ڈیٹا لاؤ 🔄</button>
+    </div>
+
     <script>
-        function runMyFirstBot() {
-            // یہ لائن ہر بار نیا ٹائم نکالتی ہے
+        // 🕒 ٹاسک 1 کی لاجک (ٹائم اپڈیٹ)
+        function runTimeBot() {
             const currentTime = new Date().toLocaleTimeString();
-            
-            // یہ لائن خود بخود اسکرین پر ٹائم تبدیل کر دیتی ہے
             document.getElementById('time-display').innerText = currentTime;
         }
+        setInterval(runTimeBot, 1000);
 
-        // 🚀 آٹومیشن کا جادو: ہر 1000 ملی سیکنڈ (1 سیکنڈ) بعد اس فنکشن کو خود بخود چلاؤ!
-        setInterval(runMyFirstBot, 1000);
+        // 🌐 ٹاسک 2 کی لاجک (انٹرنیٹ سے خودکار ڈیٹا کھینچنا)
+        async function fetchLiveQuote() {
+            const display = document.getElementById('quote-display');
+            display.innerText = "بوٹ انٹرنیٹ پر جا رہا ہے...";
+            
+            try {
+                // یہ لائن ایک لائیو فری API (انٹرنیٹ سرور) سے ڈیٹا کھینچتی ہے
+                const response = await fetch('https://dummyjson.com/quotes/random');
+                const data = await response.json();
+                
+                // خودکار طریقے سے ڈیٹا کو سکرین پر فٹ کرنا
+                display.innerHTML = `"${data.quote}" <br><br><strong>— ${data.author}</strong>`;
+            } catch (error) {
+                display.innerText = "ڈیٹا لانے میں ناکامی! انٹرنیٹ چیک کریں۔";
+            }
+        }
+
+        // 🚀 جیسے ہی پیج لوڈ ہو، بوٹ پہلی بار انٹرنیٹ پر خود ہی جائے
+        fetchLiveQuote();
+
+        // 🔄 ہر 10 سیکنڈ بعد بوٹ خود بخود نیا ڈیٹا انٹرنیٹ سے لائے گا
+        setInterval(fetchLiveQuote, 10000);
     </script>
 
 </body>
