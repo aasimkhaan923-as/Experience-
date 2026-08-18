@@ -3,666 +3,362 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instrumentation Engineering Hub & Complete 66+ Tools</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Instrumentation Engineering Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0284c7',
-                            600: '#0369a1',
-                            700: '#075985',
-                            800: '#0f172a'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Link to external CSS File -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans min-h-screen flex flex-col transition-colors duration-200">
+<body class="bg-slate-900 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- Top Navigation Bar -->
-    <header class="sticky top-0 z-40 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm">
-        <div class="px-4 py-3 flex items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <button id="mobileMenuBtn" class="md:hidden text-slate-600 dark:text-slate-300 hover:text-brand-500 focus:outline-none">
-                    <i class="fa-solid fa-bars text-xl"></i>
-                </button>
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-microchip text-brand-500 text-2xl"></i>
-                    <span class="font-bold text-lg md:text-xl tracking-wide hidden sm:inline">InstruEngine<span class="text-brand-500">Hub</span></span>
-                </div>
-            </div>
-
-            <!-- Global Search -->
-            <div class="flex-1 max-w-xl relative">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input type="text" id="globalSearch" placeholder="Search 66+ tools, MCQs, formulas, dictionary..." 
-                    class="w-full pl-10 pr-4 py-2 rounded-lg text-sm bg-slate-100 dark:bg-slate-700 border-transparent focus:border-brand-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-            </div>
-
-            <div class="flex items-center gap-2 md:gap-4">
-                <button id="themeToggleBtn" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition" title="Toggle Light/Dark Mode">
-                    <i class="fa-solid fa-moon dark:hidden"></i>
-                    <i class="fa-solid fa-sun hidden dark:inline"></i>
-                </button>
-                <button onclick="window.print()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition" title="Print / PDF">
-                    <i class="fa-solid fa-print"></i>
-                </button>
+    <!-- Header Navigation -->
+    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50 px-4 py-3 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <i class="fa-solid fa-microchip text-sky-400 text-2xl"></i>
+            <div>
+                <h1 class="font-bold text-lg text-white leading-tight">InstruHub</h1>
+                <p class="text-[10px] text-slate-400">Instrumentation & Control Engineering Reference</p>
             </div>
         </div>
+        <button id="themeToggleBtn" class="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-yellow-400 transition">
+            <i class="fa-solid fa-sun"></i>
+        </button>
     </header>
 
-    <div class="flex flex-1 overflow-hidden">
-        <!-- Sidebar Navigation -->
-        <aside id="sidebar" class="fixed md:static inset-y-0 left-0 z-30 w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out flex flex-col justify-between overflow-y-auto">
-            <div class="p-4 space-y-6">
-                <div>
-                    <h3 class="text-xs uppercase font-semibold text-slate-400 tracking-wider mb-3">Core Concepts</h3>
-                    <nav class="space-y-1" id="categoryNav">
-                        <a href="#cat-general" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition active-nav">
-                            <i class="fa-solid fa-book-open text-brand-500 w-4"></i> General Concepts
-                        </a>
-                        <a href="#cat-advanced" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-brain text-brand-500 w-4"></i> Advanced Concepts
-                        </a>
-                        <a href="#cat-circuits" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-wave-square text-brand-500 w-4"></i> Circuit Theory
-                        </a>
-                        <a href="#cat-digital" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-microchip text-brand-500 w-4"></i> Digital Logic Circuits
-                        </a>
-                        <a href="#cat-machines" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-bolt text-brand-500 w-4"></i> Electrical Machines
-                        </a>
-                        <a href="#cat-electronic" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-plug text-brand-500 w-4"></i> Electronic Devices
-                        </a>
-                        <a href="#cat-lic" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-diagram-project text-brand-500 w-4"></i> Linear Integrated Circuits
-                        </a>
-                        <a href="#cat-measurement" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-gauge-high text-brand-500 w-4"></i> Measurement & Instru.
-                        </a>
-                        <a href="#cat-transducer-eng" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-tower-cell text-brand-500 w-4"></i> Transducer Engineering
-                        </a>
-                        <a href="#cat-sensors" class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-temperature-high text-brand-500 w-4"></i> Transducers & Sensors
-                        </a>
-                    </nav>
-                </div>
+    <!-- Navigation Tabs (الگ الگ خانے) -->
+    <nav class="bg-slate-800/90 backdrop-blur border-b border-slate-700 px-4 py-2.5 flex gap-2 overflow-x-auto sticky top-[57px] z-40">
+        <button onclick="switchTab('tools')" id="tab-btn-tools" class="tab-btn active-tab px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-boxes-stacked text-sky-400"></i> 66+ Tools Directory
+        </button>
+        <button onclick="switchTab('calculators')" id="tab-btn-calculators" class="tab-btn inactive-tab px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-calculator text-emerald-400"></i> Signal & Temp Calculators
+        </button>
+        <button onclick="switchTab('mcqs')" id="tab-btn-mcqs" class="tab-btn inactive-tab px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-list-check text-purple-400"></i> MCQs Prep
+        </button>
+        <button onclick="switchTab('dictionary')" id="tab-btn-dictionary" class="tab-btn inactive-tab px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-book text-indigo-400"></i> Formulas & Dictionary
+        </button>
+        <button onclick="switchTab('notes')" id="tab-btn-notes" class="tab-btn inactive-tab px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-note-sticky text-rose-400"></i> Personal Notes
+        </button>
+    </nav>
 
-                <div>
-                    <h3 class="text-xs uppercase font-semibold text-slate-400 tracking-wider mb-3">Portal Features</h3>
-                    <nav class="space-y-1">
-                        <a href="#section-tools" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-calculator text-emerald-500 w-4"></i> 66 Tools Directory
-                        </a>
-                        <a href="#section-mcq" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-list-check text-amber-500 w-4"></i> 30 MCQ Practice Sets
-                        </a>
-                        <a href="#section-formulas" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-square-root-variable text-purple-500 w-4"></i> Formulas Section
-                        </a>
-                        <a href="#section-dictionary" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-spell-check text-indigo-500 w-4"></i> Dictionary Section
-                        </a>
-                        <a href="#section-howto" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-circle-question text-cyan-500 w-4"></i> How-To Section
-                        </a>
-                        <a href="#section-notes" class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs md:text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                            <i class="fa-solid fa-note-sticky text-rose-500 w-4"></i> Notes Feature
-                        </a>
-                    </nav>
+    <!-- Main Content Area -->
+    <main class="p-4 max-w-5xl mx-auto w-full flex-1 space-y-4">
+
+        <!-- ================= TAB 1: 66+ TOOLS DIRECTORY ================= -->
+        <section id="tab-tools" class="tab-content space-y-4">
+            <!-- Search Bar -->
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                <input type="text" id="globalSearch" placeholder="Search 66+ sensors, transmitters, valves, PLCs..." class="w-full pl-10 pr-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs outline-none focus:border-sky-500 transition">
+            </div>
+
+            <!-- Tools Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
+                    <h3 class="font-bold text-sky-400 text-sm flex items-center gap-2"><i class="fa-solid fa-gauge"></i> Pressure Transmitters</h3>
+                    <p class="text-xs text-slate-300">Piezoresistive, Capacitance, Differential Pressure (DP) cell, and Smart transmitters (HART/Fieldbus).</p>
+                </div>
+                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
+                    <h3 class="font-bold text-emerald-400 text-sm flex items-center gap-2"><i class="fa-solid fa-temperature-high"></i> Temperature Sensors</h3>
+                    <p class="text-xs text-slate-300">RTDs (Pt100/Pt1000), Thermocouples (Type K, J, T, E, R, S), Thermistors, and Pyrometers.</p>
+                </div>
+                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
+                    <h3 class="font-bold text-amber-400 text-sm flex items-center gap-2"><i class="fa-solid fa-water"></i> Flow Meters</h3>
+                    <p class="text-xs text-slate-300">Electromagnetic, Ultrasonic, Coriolis mass, Vortex shedding, Orifice plate, and Venturi tube.</p>
+                </div>
+                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
+                    <h3 class="font-bold text-purple-400 text-sm flex items-center gap-2"><i class="fa-solid fa-ruler-vertical"></i> Level Measurement</h3>
+                    <p class="text-xs text-slate-300">Guided Wave Radar, Non-contact Radar, Ultrasonic, Hydrostatic, Displacer, and Float switches.</p>
+                </div>
+                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
+                    <h3 class="font-bold text-rose-400 text-sm flex items-center gap-2"><i class="fa-solid fa-sliders"></i> Control Valves & Actuators</h3>
+                    <p class="text-xs text-slate-300">Globe, Ball, Butterfly, Plug valves, Pneumatic diaphragm actuators, Electro-hydraulic, and Smart Valve Positioners.</p>
+                </div>
+                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
+                    <h3 class="font-bold text-cyan-400 text-sm flex items-center gap-2"><i class="fa-solid fa-network-wired"></i> PLCs, DCS & SCADA</h3>
+                    <p class="text-xs text-slate-300">Programmable Logic Controllers, Distributed Control Systems, HMI panels, Modbus RTU/TCP, Profibus DP, and HART.</p>
+                </div>
+                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
+                    <h3 class="font-bold text-indigo-400 text-sm flex items-center gap-2"><i class="fa-solid fa-flask"></i> Analytical Instruments</h3>
+                    <p class="text-xs text-slate-300">pH / ORP meters, Conductivity analyzers, Gas Chromatographs, Oxygen analyzers, and Turbidity sensors.</p>
+                </div>
+                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
+                    <h3 class="font-bold text-orange-400 text-sm flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> Safety & Interlocks</h3>
+                    <p class="text-xs text-slate-300">SIS (Safety Instrumented Systems), ESD (Emergency Shutdown Valves), Flame & Gas detectors, SIL levels.</p>
+                </div>
+                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
+                    <h3 class="font-bold text-teal-400 text-sm flex items-center gap-2"><i class="fa-solid fa-plug flex-shrink-0"></i> Signal Conditioners</h3>
+                    <p class="text-xs text-slate-300">Isolators, I/P Converters (Current to Pressure), P/I Converters, Frequency-to-Voltage converters, and Zener barriers.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: CALCULATORS ================= -->
+        <section id="tab-calculators" class="tab-content hidden space-y-4">
+            <!-- 4-20mA Converter -->
+            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
+                <h2 class="font-bold text-emerald-400 text-sm flex items-center gap-2"><i class="fa-solid fa-wave-square"></i> 4–20 mA Signal Converter</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <input type="number" id="maInput" placeholder="Value (e.g. 12 or 50)" class="p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs outline-none focus:border-emerald-500">
+                    <select id="maUnit" class="p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs outline-none">
+                        <option value="ma">mA Signal to Process %</option>
+                        <option value="pct">Process % to mA Signal</option>
+                    </select>
+                </div>
+                <button onclick="calculate4to20mA()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-2.5 rounded-lg text-xs font-bold transition">Calculate Signal</button>
+                <div id="maResult" class="hidden p-3 bg-emerald-950/50 border border-emerald-800 rounded-lg text-emerald-300 text-xs font-mono text-center"></div>
+            </div>
+
+            <!-- Ohm's Law Calculator -->
+            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
+                <h2 class="font-bold text-sky-400 text-sm flex items-center gap-2"><i class="fa-solid fa-bolt"></i> Ohm's Law Calculator (V = I × R)</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <input type="number" id="ohmV" placeholder="Voltage (V)" class="p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs outline-none focus:border-sky-500">
+                    <input type="number" id="ohmI" placeholder="Current (I in Amps)" class="p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs outline-none focus:border-sky-500">
+                    <input type="number" id="ohmR" placeholder="Resistance (R in Ω)" class="p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs outline-none focus:border-sky-500">
+                </div>
+                <button onclick="calculateOhmsLaw()" class="w-full bg-sky-600 hover:bg-sky-500 py-2.5 rounded-lg text-xs font-bold transition">Calculate Missing Value</button>
+                <div id="ohmsResult" class="hidden p-3 bg-sky-950/50 border border-sky-800 rounded-lg text-sky-300 text-xs font-mono text-center"></div>
+            </div>
+
+            <!-- RTD Pt100 Calculator -->
+            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
+                <h2 class="font-bold text-amber-400 text-sm flex items-center gap-2"><i class="fa-solid fa-temperature-high"></i> RTD Pt100 Temperature Calculator</h2>
+                <input type="number" id="rtdRes" placeholder="Resistance in Ohms (e.g. 100 for 0°C, 138.5 for 100°C)" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs outline-none focus:border-amber-500">
+                <button onclick="calculateRTD()" class="w-full bg-amber-600 hover:bg-amber-500 py-2.5 rounded-lg text-xs font-bold transition">Calculate Temperature</button>
+                <div id="rtdResult" class="hidden p-3 bg-amber-950/50 border border-amber-800 rounded-lg text-amber-300 text-xs font-mono text-center"></div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: MCQs PREP ================= -->
+        <section id="tab-mcqs" class="tab-content hidden space-y-4">
+            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
+                <span class="text-[10px] font-bold text-purple-400 bg-purple-950/60 px-2 py-1 rounded">Question 1</span>
+                <h3 class="font-semibold text-xs text-slate-200">What live signal current corresponds to 0% Process Value in a standard 4–20 mA loop?</h3>
+                <div class="space-y-2">
+                    <button onclick="checkMcq(this, false)" class="w-full text-left p-3 bg-slate-900 hover:bg-slate-700 rounded-lg text-xs border border-slate-700 transition">A) 0 mA</button>
+                    <button onclick="checkMcq(this, true)" class="w-full text-left p-3 bg-slate-900 hover:bg-slate-700 rounded-lg text-xs border border-slate-700 transition">B) 4 mA</button>
+                    <button onclick="checkMcq(this, false)" class="w-full text-left p-3 bg-slate-900 hover:bg-slate-700 rounded-lg text-xs border border-slate-700 transition">C) 10 mA</button>
+                </div>
+                <div class="mcq-feedback hidden p-2 rounded text-xs font-semibold"></div>
+            </div>
+
+            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
+                <span class="text-[10px] font-bold text-purple-400 bg-purple-950/60 px-2 py-1 rounded">Question 2</span>
+                <h3 class="font-semibold text-xs text-slate-200">What is the nominal electrical resistance of a Pt100 RTD sensor at 0°C?</h3>
+                <div class="space-y-2">
+                    <button onclick="checkMcq(this, false)" class="w-full text-left p-3 bg-slate-900 hover:bg-slate-700 rounded-lg text-xs border border-slate-700 transition">A) 0 Ω</button>
+                    <button onclick="checkMcq(this, true)" class="w-full text-left p-3 bg-slate-900 hover:bg-slate-700 rounded-lg text-xs border border-slate-700 transition">B) 100 Ω</button>
+                    <button onclick="checkMcq(this, false)" class="w-full text-left p-3 bg-slate-900 hover:bg-slate-700 rounded-lg text-xs border border-slate-700 transition">C) 1000 Ω</button>
+                </div>
+                <div class="mcq-feedback hidden p-2 rounded text-xs font-semibold"></div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: FORMULAS & DICTIONARY ================= -->
+        <section id="tab-dictionary" class="tab-content hidden space-y-4">
+            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
+                <h2 class="font-bold text-indigo-400 text-sm flex items-center gap-2"><i class="fa-solid fa-square-root-variable"></i> Key Instrumentation Formulas</h2>
+                <div class="space-y-2 text-xs">
+                    <div class="p-3 bg-slate-900 rounded border border-slate-700">
+                        <span class="font-bold text-sky-400">4-20 mA Signal Loop:</span>
+                        <p class="font-mono text-slate-300 mt-1">I = 4 + 16 × (PV / 100)</p>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded border border-slate-700">
+                        <span class="font-bold text-sky-400">RTD Pt100 Resistance:</span>
+                        <p class="font-mono text-slate-300 mt-1">Rt = R0 × (1 + α × T) where α = 0.00385 Ω/Ω/°C</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="p-4 border-t border-slate-200 dark:border-slate-700 text-xs text-slate-400 flex justify-between items-center">
-                <span><i class="fa-solid fa-circle text-emerald-500 text-[10px] mr-1"></i> Offline Access</span>
-                <span class="bg-brand-500/10 text-brand-500 px-2 py-0.5 rounded font-semibold">Pro Suite</span>
+            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
+                <h2 class="font-bold text-indigo-400 text-sm flex items-center gap-2"><i class="fa-solid fa-spell-check"></i> Terms & Dictionary</h2>
+                <div class="space-y-2 text-xs">
+                    <div class="p-3 bg-slate-900 rounded border border-slate-700">
+                        <span class="font-bold text-indigo-300">Hysteresis:</span>
+                        <p class="text-slate-300 mt-0.5">The maximum output difference for a given input when approached from increasing vs decreasing directions.</p>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded border border-slate-700">
+                        <span class="font-bold text-indigo-300">LVDT:</span>
+                        <p class="text-slate-300 mt-0.5">Linear Variable Differential Transformer - an electromechanical transducer for measuring displacement.</p>
+                    </div>
+                </div>
             </div>
-        </aside>
+        </section>
 
-
-                <!-- Main Content Area -->
-        <main class="flex-1 overflow-y-auto p-4 md:p-8 space-y-8">
-            
-            <!-- Hero Banner -->
-            <section class="bg-gradient-to-r from-brand-700 via-brand-800 to-slate-900 text-white rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden">
-                <div class="relative z-10 space-y-3 max-w-3xl">
-                    <div class="inline-flex items-center gap-2 bg-brand-500/20 text-brand-100 text-xs font-semibold px-3 py-1 rounded-full border border-brand-500/30">
-                        <i class="fa-solid fa-shield-halved"></i> One-Time Purchase • Priority Support • Offline Access Enabled
-                    </div>
-                    <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight">Instrumentation & Measurement Suite</h1>
-                    <p class="text-slate-300 text-xs md:text-sm leading-relaxed">
-                        Access all 66 Instrumentation Engineering tools, interactive 30 MCQ sets, complete formulas, glossary dictionary, Q&A, and offline personal note-taking capabilities.
-                    </p>
-                </div>
-            </section>
-
-            <!-- Categories Overview Grid (10 Core Subjects) -->
-            <section class="space-y-4">
-                <h2 class="text-lg md:text-xl font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-layer-group text-brand-500"></i> Core Engineering Categories
-                </h2>
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-                    <div id="cat-general" class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 transition">
-                        <i class="fa-solid fa-book-open text-brand-500 text-xl mb-1"></i>
-                        <h4 class="text-xs font-bold">General Concepts</h4>
-                    </div>
-                    <div id="cat-advanced" class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 transition">
-                        <i class="fa-solid fa-brain text-brand-500 text-xl mb-1"></i>
-                        <h4 class="text-xs font-bold">Advanced Concepts</h4>
-                    </div>
-                    <div id="cat-circuits" class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 transition">
-                        <i class="fa-solid fa-wave-square text-brand-500 text-xl mb-1"></i>
-                        <h4 class="text-xs font-bold">Circuit Theory</h4>
-                    </div>
-                    <div id="cat-digital" class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 transition">
-                        <i class="fa-solid fa-microchip text-brand-500 text-xl mb-1"></i>
-                        <h4 class="text-xs font-bold">Digital Logic</h4>
-                    </div>
-                    <div id="cat-machines" class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 transition">
-                        <i class="fa-solid fa-bolt text-brand-500 text-xl mb-1"></i>
-                        <h4 class="text-xs font-bold">Electrical Machines</h4>
-                    </div>
-                    <div id="cat-electronic" class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 transition">
-                        <i class="fa-solid fa-plug text-brand-500 text-xl mb-1"></i>
-                        <h4 class="text-xs font-bold">Electronic Devices</h4>
-                    </div>
-                    <div id="cat-lic" class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 transition">
-                        <i class="fa-solid fa-diagram-project text-brand-500 text-xl mb-1"></i>
-                        <h4 class="text-xs font-bold">Linear ICs</h4>
-                    </div>
-                    <div id="cat-measurement" class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 transition">
-                        <i class="fa-solid fa-gauge-high text-brand-500 text-xl mb-1"></i>
-                        <h4 class="text-xs font-bold">Measurement & Instru.</h4>
-                    </div>
-                    <div id="cat-transducer-eng" class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 transition">
-                        <i class="fa-solid fa-tower-cell text-brand-500 text-xl mb-1"></i>
-                        <h4 class="text-xs font-bold">Transducer Eng.</h4>
-                    </div>
-                    <div id="cat-sensors" class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 transition">
-                        <i class="fa-solid fa-temperature-high text-brand-500 text-xl mb-1"></i>
-                        <h4 class="text-xs font-bold">Transducers & Sensors</h4>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 66 Tools Interactive Directory & Working Calculators -->
-            <section id="section-tools" class="space-y-6">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-700 pb-3">
-                    <div>
-                        <h2 class="text-xl font-bold flex items-center gap-2">
-                            <i class="fa-solid fa-calculator text-emerald-500"></i> Access All 66 Engineering Tools
-                        </h2>
-                        <p class="text-xs text-slate-400">Interactive calculators, calibration tools, loop converters, and reference sizing tools.</p>
-                    </div>
-                    <span class="text-xs bg-emerald-500/10 text-emerald-500 font-semibold px-3 py-1 rounded-full self-start md:self-auto">66 / 66 Active Tools</span>
-                </div>
-
-                <!-- Interactive Calculators Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    
-                    <!-- 1. 4-20mA Converter -->
-                    <div class="tool-card bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 space-y-3 shadow-sm">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-sm">4–20 mA Signal Converter</h3>
-                            <i class="fa-solid fa-wave-square text-brand-500"></i>
-                        </div>
-                        <div class="space-y-2 text-xs">
-                            <input type="number" id="maInput" placeholder="Enter value" class="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded border border-transparent focus:border-brand-500 outline-none">
-                            <select id="maUnit" class="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded border border-transparent outline-none">
-                                <option value="ma">Convert mA to %</option>
-                                <option value="percent">Convert % to mA</option>
-                            </select>
-                            <button onclick="calculate4to20mA()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded font-semibold transition">Calculate</button>
-                            <div id="maResult" class="p-2 bg-slate-100 dark:bg-slate-900 rounded font-bold text-brand-500 hidden"></div>
-                        </div>
-                    </div>
-
-                    <!-- 2. Ohm's Law Calculator -->
-                    <div class="tool-card bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 space-y-3 shadow-sm">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-sm">Ohm’s Law Calculator</h3>
-                            <i class="fa-solid fa-bolt text-amber-500"></i>
-                        </div>
-                        <div class="space-y-2 text-xs">
-                            <input type="number" id="ohmV" placeholder="Voltage (V)" class="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded border border-transparent outline-none">
-                            <input type="number" id="ohmI" placeholder="Current (I in Amps)" class="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded border border-transparent outline-none">
-                            <input type="number" id="ohmR" placeholder="Resistance (R in Ohms)" class="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded border border-transparent outline-none">
-                            <button onclick="calculateOhmsLaw()" class="w-full bg-amber-600 hover:bg-amber-700 text-white py-2 rounded font-semibold transition">Calculate</button>
-                            <div id="ohmsResult" class="p-2 bg-slate-100 dark:bg-slate-900 rounded font-bold text-amber-500 hidden"></div>
-                        </div>
-                    </div>
-
-                    <!-- 3. RTD Calculator -->
-                    <div class="tool-card bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 space-y-3 shadow-sm">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-sm">RTD Pt100 Calculator</h3>
-                            <i class="fa-solid fa-temperature-low text-rose-500"></i>
-                        </div>
-                        <p class="text-[11px] text-slate-400">Calculate temperature from Pt100 resistance (α = 0.00385).</p>
-                        <div class="space-y-2 text-xs">
-                            <input type="number" id="rtdRes" placeholder="Enter Resistance (Ω)" class="w-full p-2 bg-slate-100 dark:bg-slate-700 rounded border border-transparent outline-none">
-                            <button onclick="calculateRTD()" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-2 rounded font-semibold transition">Calculate Temp</button>
-                            <div id="rtdResult" class="p-2 bg-slate-100 dark:bg-slate-900 rounded font-bold text-rose-500 hidden"></div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- 66 Tools Quick Index Tags -->
-                <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 space-y-3">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Complete 66 Tools Directory List:</h3>
-                    <div class="flex flex-wrap gap-2 text-[11px]">
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Instrumentation Unit Converter</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">dB Calculator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">SNR Calculator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">RMS Calculator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Sampling Frequency Calculator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">RTD Calculator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Thermocouple Converter</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Thermistor Calculator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Strain Gauge Calculator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Pressure Sensor Output</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">LVDT Displacement</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">4–20 mA Signal Converter</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">PID Tuning Calculator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Transfer Function Simplifier</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Time Constant & Dead Time</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Orifice Plate Flow</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Venturi & Nozzle Flow</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Rotameter Sizing</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">DP Transmitter Range</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Tank Level & Pressure Head</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Ohm’s Law Calculator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Wheatstone Bridge</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Cable Voltage Drop</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Loop Resistance Check</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Intrinsic Safety Energy</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Calibration Curve Generator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Linearity Error</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Hysteresis Error</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Measurement Uncertainty</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Control Valve Sizing</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Actuator Sizing</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Modbus Address Converter</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">CRC16 Modbus Calculator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">HART Command Lookup</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">SIL PFDavg Calculator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">MTBF / MTTF Estimator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Redundancy Reliability</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Instrument Tag Generator</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">Data Logger File Size</span>
-                        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md">+ 27 More Tools Included</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 30 MCQ Practice Sets -->
-            <section id="section-mcq" class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 space-y-4">
+        <!-- ================= TAB 5: PERSONAL NOTES ================= -->
+        <section id="tab-notes" class="tab-content hidden space-y-4">
+            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
                 <div class="flex justify-between items-center">
-                    <h2 class="text-xl font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-amber-500"></i> 30 MCQ Practice Sets
-                    </h2>
-                    <span class="text-xs bg-amber-500/10 text-amber-500 px-2.5 py-1 rounded-full font-bold">Interactive</span>
+                    <h2 class="font-bold text-rose-400 text-sm flex items-center gap-2"><i class="fa-solid fa-note-sticky"></i> Personal Notes Engine</h2>
+                    <span class="text-[10px] text-slate-400">Auto-saved in browser</span>
                 </div>
-                
-                <div class="space-y-4">
-                    <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg space-y-3 text-xs border border-slate-200 dark:border-slate-700">
-                        <p class="font-bold text-sm">Q1: Which sensor operates on the principle of change in electrical resistance due to mechanical strain?</p>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            <button onclick="checkMcq(this, false)" class="p-2.5 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition">A) LVDT</button>
-                            <button onclick="checkMcq(this, true)" class="p-2.5 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition">B) Strain Gauge</button>
-                            <button onclick="checkMcq(this, false)" class="p-2.5 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition">C) Thermocouple</button>
-                            <button onclick="checkMcq(this, false)" class="p-2.5 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition">D) Rotameter</button>
-                        </div>
-                        <div class="mcq-feedback font-bold hidden p-2 rounded"></div>
-                    </div>
-
-                    <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg space-y-3 text-xs border border-slate-200 dark:border-slate-700">
-                        <p class="font-bold text-sm">Q2: What current value corresponds to 0% process variable in a standard industrial current loop?</p>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            <button onclick="checkMcq(this, false)" class="p-2.5 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition">A) 0 mA</button>
-                            <button onclick="checkMcq(this, true)" class="p-2.5 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition">B) 4 mA</button>
-                            <button onclick="checkMcq(this, false)" class="p-2.5 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition">C) 10 mA</button>
-                            <button onclick="checkMcq(this, false)" class="p-2.5 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition">D) 20 mA</button>
-                        </div>
-                        <div class="mcq-feedback font-bold hidden p-2 rounded"></div>
-                    </div>
-                </div>
-            </section>
-                        <!-- Formulas & Equations Section -->
-            <section id="section-formulas" class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 space-y-4">
-                <h2 class="text-xl font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-square-root-variable text-purple-500"></i> Instrumentation Formulas Quick Reference
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                    <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg space-y-1 border border-slate-200 dark:border-slate-700">
-                        <span class="font-bold text-brand-500">Signal Current Loop Formula:</span>
-                        <p class="font-mono text-slate-600 dark:text-slate-300">I = 4 + 16 × (PV / 100)</p>
-                    </div>
-                    <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg space-y-1 border border-slate-200 dark:border-slate-700">
-                        <span class="font-bold text-brand-500">RTD Resistance Formula (Pt100):</span>
-                        <p class="font-mono text-slate-600 dark:text-slate-300">Rt = R0 × (1 + α × T)</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Dictionary & Q&A Section -->
-            <section id="section-dictionary" class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 space-y-4">
-                <h2 class="text-xl font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-spell-check text-indigo-500"></i> Dictionary & Reference Terms
-                </h2>
-                <div class="space-y-3 text-xs">
-                    <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700">
-                        <span class="font-bold text-indigo-500">Hysteresis Error:</span>
-                        <p class="text-slate-600 dark:text-slate-300 mt-1">The maximum difference in output value for a given input value when approached from increasing and decreasing directions.</p>
-                    </div>
-                    <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700">
-                        <span class="font-bold text-indigo-500">LVDT:</span>
-                        <p class="text-slate-600 dark:text-slate-300 mt-1">Linear Variable Differential Transformer - an electromechanical transducer used for measuring linear displacement.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- How-To Guides Section -->
-            <section id="section-howto" class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 space-y-4">
-                <h2 class="text-xl font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-circle-question text-cyan-500"></i> How-To Calibration & Troubleshooting Guides
-                </h2>
-                <ul class="list-disc list-inside text-xs space-y-2 text-slate-600 dark:text-slate-300">
-                    <li><strong>How to Calibrate a 4–20 mA Transmitter:</strong> Connect a calibrated multimeter in series, apply 0% process input, adjust zero screw to 4.00 mA, apply 100% input, adjust span screw to 20.00 mA.</li>
-                    <li><strong>How to Test RTD Sensors:</strong> Measure resistance across terminals using a DMM. At 0°C, Pt100 should read exactly 100.0 Ω.</li>
-                </ul>
-            </section>
-
-            <!-- Personal Notes Feature (LocalStorage Saved) -->
-            <section id="section-notes" class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 space-y-4">
+                <textarea id="noteInput" rows="6" placeholder="Write personal formulas, plant notes, or project tasks here..." class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-xs outline-none focus:border-rose-500 transition"></textarea>
                 <div class="flex justify-between items-center">
-                    <h2 class="text-xl font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-note-sticky text-rose-500"></i> Personal Notes Engine
-                    </h2>
-                    <span class="text-xs text-slate-400">Auto-saved in local browser</span>
-                </div>
-                <textarea id="noteInput" rows="4" placeholder="Type your personal formulas, project notes, or study guidelines here..." class="w-full p-3 text-xs bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:border-rose-500 transition"></textarea>
-                <div class="flex justify-between items-center">
-                    <button onclick="saveNote()" class="bg-rose-600 hover:bg-rose-700 text-white px-5 py-2 rounded-lg text-xs font-bold transition">Save Personal Note</button>
+                    <button onclick="saveNote()" class="bg-rose-600 hover:bg-rose-500 px-5 py-2.5 rounded-lg text-xs font-bold transition">Save Note</button>
                     <div id="notesList"></div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-        </main>
-    </div>
+    </main>
 
-    <!-- External Javascript File Connection -->
     <script src="script.js"></script>
 </body>
-</html>
-
-/* Custom Scrollbars */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(156, 163, 175, 0.4);
-    border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(156, 163, 175, 0.7);
-}
-
-/* Smooth Scrolling */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Active Navigation Link Highlighting */
-.active-nav {
-    background-color: rgba(2, 132, 199, 0.1) !important;
-    color: #0284c7 !important;
-    font-weight: 600 !important;
-    border-left: 3px solid #0284c7;
-}
-
-/* Card Hover and Animation Transitions */
-.tool-card {
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.tool-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-/* Responsive Sidebar Adjustments */
-@media (max-width: 768px) {
-    #sidebar {
-        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
-    }
-}
-
-/* MCQ Option Selected Styles */
-.mcq-selected-correct {
-    background-color: rgba(16, 185, 129, 0.15) !important;
-    border-color: #10b981 !important;
-    color: #059669 !important;
-}
-
-.mcq-selected-wrong {
-    background-color: rgba(244, 63, 94, 0.15) !important;
-    border-color: #f43f5e !important;
-    color: #e11d48 !important;
-}
-
-/* Print View Formatting */
-@media print {
-    header, 
-    aside, 
-    button, 
-    textarea, 
-    #mobileMenuBtn, 
-    #themeToggleBtn {
-        display: none !important;
-    }
-    
-    body {
-        background: #ffffff !important;
-        color: #000000 !important;
-    }
-
-    main {
-        padding: 0 !important;
-        overflow: visible !important;
-    }
-
-    .tool-card, 
-    section {
-        border: 1px solid #e2e8f0 !important;
-        box-shadow: none !important;
-        break-inside: avoid;
-    }
-}
-
-  Javascript 
-// Theme Toggle & Dark Mode Persistence
-const themeToggleBtn = document.getElementById('themeToggleBtn');
-const htmlElement = document.documentElement;
-
-if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    htmlElement.classList.add('dark');
-} else {
-    htmlElement.classList.remove('dark');
-}
-
-if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-        if (htmlElement.classList.contains('dark')) {
-            htmlElement.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-        } else {
-            htmlElement.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-        }
+                </html>
+                // Tab Switching System
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active-tab');
+        btn.classList.add('inactive-tab');
     });
+
+    const selectedTab = document.getElementById(`tab-${tabId}`);
+    if (selectedTab) selectedTab.classList.remove('hidden');
+
+    const selectedBtn = document.getElementById(`tab-btn-${tabId}`);
+    if (selectedBtn) {
+        selectedBtn.classList.add('active-tab');
+        selectedBtn.classList.remove('inactive-tab');
+    }
 }
 
-// Mobile Sidebar Toggle
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const sidebar = document.getElementById('sidebar');
-
-if (mobileMenuBtn && sidebar) {
-    mobileMenuBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('-translate-x-full');
-    });
-}
-
-// Global Live Filter / Search Engine
+// Live Search for 66+ Tools
 const globalSearch = document.getElementById('globalSearch');
 if (globalSearch) {
     globalSearch.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase().trim();
-        const toolCards = document.querySelectorAll('.tool-card');
-        
-        toolCards.forEach(card => {
+        document.querySelectorAll('.tool-card').forEach(card => {
             const text = card.textContent.toLowerCase();
-            if (text.includes(query)) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
+            card.style.display = text.includes(query) ? 'block' : 'none';
         });
     });
 }
 
-// 1. 4-20 mA Signal Converter Logic
+// 4-20 mA Signal Converter
 function calculate4to20mA() {
-    const inputVal = parseFloat(document.getElementById('maInput').value);
+    const val = parseFloat(document.getElementById('maInput').value);
     const unit = document.getElementById('maUnit').value;
-    const resultDiv = document.getElementById('maResult');
+    const res = document.getElementById('maResult');
 
-    if (isNaN(inputVal)) {
-        resultDiv.classList.remove('hidden');
-        resultDiv.textContent = "براہِ کرم صحیح نمبر درج کریں!";
+    if (isNaN(val)) {
+        res.classList.remove('hidden');
+        res.textContent = "براہِ کرم صحیح نمبر درج کریں!";
         return;
     }
 
-    let outputText = "";
     if (unit === 'ma') {
-        const percentage = ((inputVal - 4) / 16) * 100;
-        outputText = `Signal: ${inputVal.toFixed(2)} mA = ${percentage.toFixed(2)}% Process Value`;
+        const pct = ((val - 4) / 16) * 100;
+        res.textContent = `${val.toFixed(2)} mA = ${pct.toFixed(2)}% Process Value`;
     } else {
-        const maSignal = 4 + ((inputVal / 100) * 16);
-        outputText = `Process Value: ${inputVal.toFixed(2)}% = ${maSignal.toFixed(2)} mA Signal`;
+        const ma = 4 + ((val / 100) * 16);
+        res.textContent = `${val.toFixed(2)}% Process Value = ${ma.toFixed(2)} mA Signal`;
     }
-
-    resultDiv.textContent = outputText;
-    resultDiv.classList.remove('hidden');
+    res.classList.remove('hidden');
 }
 
-// 2. Ohm's Law Calculator Logic
+// Ohm's Law Calculator
 function calculateOhmsLaw() {
     let v = parseFloat(document.getElementById('ohmV').value);
     let i = parseFloat(document.getElementById('ohmI').value);
     let r = parseFloat(document.getElementById('ohmR').value);
-    const resultDiv = document.getElementById('ohmsResult');
+    const res = document.getElementById('ohmsResult');
 
     if (!isNaN(v) && !isNaN(i) && isNaN(r)) {
-        r = v / i;
-        resultDiv.textContent = `Calculated Resistance (R): ${r.toFixed(2)} Ω`;
+        res.textContent = `Calculated Resistance (R): ${(v / i).toFixed(2)} Ω`;
     } else if (!isNaN(v) && isNaN(i) && !isNaN(r)) {
-        i = v / r;
-        resultDiv.textContent = `Calculated Current (I): ${i.toFixed(2)} A`;
+        res.textContent = `Calculated Current (I): ${(v / r).toFixed(2)} A`;
     } else if (isNaN(v) && !isNaN(i) && !isNaN(r)) {
-        v = i * r;
-        resultDiv.textContent = `Calculated Voltage (V): ${v.toFixed(2)} V`;
+        res.textContent = `Calculated Voltage (V): ${(i * r).toFixed(2)} V`;
     } else {
-        resultDiv.textContent = "حساب کے لیے کوئی سی دو قیمتیں درج کریں!";
+        res.textContent = "حساب کے لیے کوئی سی دو قیمتیں درج کریں!";
     }
-
-    resultDiv.classList.remove('hidden');
+    res.classList.remove('hidden');
 }
 
-// 3. RTD Pt100 Calculator Logic
+// RTD Pt100 Calculator
 function calculateRTD() {
-    const res = parseFloat(document.getElementById('rtdRes').value);
-    const resultDiv = document.getElementById('rtdResult');
+    const resVal = parseFloat(document.getElementById('rtdRes').value);
+    const res = document.getElementById('rtdResult');
 
-    if (isNaN(res)) {
-        resultDiv.classList.remove('hidden');
-        resultDiv.textContent = "مزاحمت (Resistance) کی قیمت درج کریں!";
+    if (isNaN(resVal)) {
+        res.classList.remove('hidden');
+        res.textContent = "براہِ کرم Resistance کی قیمت درج کریں!";
         return;
     }
 
-    // Formula: Temperature = (R - 100) / (100 * 0.00385)
-    const temp = (res - 100) / (100 * 0.00385);
-    resultDiv.textContent = `Calculated Temp: ${temp.toFixed(2)} °C`;
-    resultDiv.classList.remove('hidden');
+    const temp = (resVal - 100) / (100 * 0.00385);
+    res.textContent = `Calculated Temp: ${temp.toFixed(2)} °C`;
+    res.classList.remove('hidden');
 }
-// 4. Interactive MCQ Checker Logic
-function checkMcq(buttonElement, isCorrect) {
-    const parentContainer = buttonElement.closest('.space-y-3');
-    const feedbackDiv = parentContainer.querySelector('.mcq-feedback');
-    const allButtons = parentContainer.querySelectorAll('button');
 
-    // Disable all buttons in this question after selection
-    allButtons.forEach(btn => btn.disabled = true);
-    feedbackDiv.classList.remove('hidden');
+// MCQ Checker Logic
+function checkMcq(btn, isCorrect) {
+    const container = btn.closest('.space-y-3');
+    const feedback = container.querySelector('.mcq-feedback');
+    container.querySelectorAll('button').forEach(b => b.disabled = true);
 
+    feedback.classList.remove('hidden');
     if (isCorrect) {
-        buttonElement.classList.add('mcq-selected-correct');
-        feedbackDiv.innerHTML = '<span class="text-emerald-500"><i class="fa-solid fa-circle-check"></i> درست جواب! بالکل صحیح۔</span>';
+        btn.classList.add('mcq-correct');
+        feedback.innerHTML = '<span class="text-emerald-400"><i class="fa-solid fa-circle-check"></i> درست جواب!</span>';
     } else {
-        buttonElement.classList.add('mcq-selected-wrong');
-        feedbackDiv.innerHTML = '<span class="text-rose-500"><i class="fa-solid fa-circle-xmark"></i> غلط جواب! صحیح جواب پر دوبارہ غور کریں۔</span>';
+        btn.classList.add('mcq-wrong');
+        feedback.innerHTML = '<span class="text-rose-400"><i class="fa-solid fa-circle-xmark"></i> غلط جواب!</span>';
     }
 }
 
-// 5. Personal Notes Logic (LocalStorage Persistence)
-const noteInput = document.getElementById('noteInput');
-const notesList = document.getElementById('notesList');
-
-function loadNotes() {
-    if (!notesList || !noteInput) return;
-    const savedNote = localStorage.getItem('instru_hub_note');
-    if (savedNote) {
-        noteInput.value = savedNote;
-        notesList.innerHTML = `<div class="p-2 bg-emerald-500/10 text-emerald-500 rounded text-xs font-semibold"><i class="fa-solid fa-check-double"></i> نوٹ محفوظ ہے!</div>`;
-    }
-}
-
+// Personal Notes Logic
 function saveNote() {
-    if (!noteInput) return;
-    const text = noteInput.value.trim();
-    if (text === '') {
-        alert("براہِ کرم پہلے کچھ نوٹس درج کریں!");
-        return;
-    }
-    localStorage.setItem('instru_hub_note', text);
-    loadNotes();
+    const txt = document.getElementById('noteInput').value.trim();
+    if (!txt) return alert("براہِ کرم پہلے کچھ نوٹس لکھیں!");
+    localStorage.setItem('instru_hub_note', txt);
+    loadNote();
 }
 
-// Load saved notes automatically on startup
-document.addEventListener('DOMContentLoaded', () => {
-    loadNotes();
-});
+function loadNote() {
+    const saved = localStorage.getItem('instru_hub_note');
+    if (saved && document.getElementById('noteInput')) {
+        document.getElementById('noteInput').value = saved;
+        document.getElementById('notesList').innerHTML = '<div class="text-emerald-400 text-xs font-semibold"><i class="fa-solid fa-check"></i> محفوظ ہو گیا!</div>';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadNote);
+.active-tab {
+    background-color: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+.inactive-tab {
+    background-color: #1e293b;
+    color: #94a3b8;
+}
+
+.inactive-tab:hover {
+    background-color: #334155;
+    color: #f1f5f9;
+}
+
+.mcq-correct {
+    background-color: rgba(16, 185, 129, 0.2) !important;
+    border-color: #10b981 !important;
+    color: #34d399 !important;
+}
+
+.mcq-wrong {
+    background-color: rgba(244, 63, 94, 0.2) !important;
+    border-color: #f43f5e !important;
+    color: #fb7185 !important;
+}
+
+.tool-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-2px);
+}
