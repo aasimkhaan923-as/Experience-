@@ -412,3 +412,95 @@
     <script src="script.js"></script>
 </body>
 </html>
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.4);
+    border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.7);
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Active Navigation Link Highlighting */
+.active-nav {
+    background-color: rgba(2, 132, 199, 0.1) !important;
+    color: #0284c7 !important;
+    font-weight: 600 !important;
+    border-left: 3px solid #0284c7;
+}
+
+/* Card Hover and Animation Transitions */
+.tool-card {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tool-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive Sidebar Adjustments */
+@media (max-width: 768px) {
+    #sidebar {
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* MCQ Option Selected Styles */
+.mcq-selected-correct {
+    background-color: rgba(16, 185, 129, 0.15) !important;
+    border-color: #10b981 !important;
+    color: #059669 !important;
+}
+
+.mcq-selected-wrong {
+    background-color: rgba(244, 63, 94, 0.15) !important;
+    border-color: #f43f5e !important;
+    color: #e11d48 !important;
+}
+
+/* Print View Formatting */
+@media print {
+    header, 
+    aside, 
+    button, 
+    textarea, 
+    #mobileMenuBtn, 
+    #themeToggleBtn {
+        display: none !important;
+    }
+    
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    main {
+        padding: 0 !important;
+        overflow: visible !important;
+    }
+
+    .tool-card, 
+    section {
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+    }
+}
+
