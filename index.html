@@ -1,364 +1,768 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instrumentation Engineering Hub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instrumentation Master — EE Toolkit</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,Arial,sans-serif}
+:root{--bg:#f3f6fa;--card:#fff;--text:#16233a;--muted:#64748b;--primary:#4338ca;--primary-soft:#e6e6fb;--accent:#0e7490;--green:#16a34a;--red:#dc2626;--orange:#d97706;--border:#e2e8f0;--shadow:0 2px 10px rgba(0,0,0,.08)}
+html[data-theme=dark]{--bg:#0b1220;--card:#141d31;--text:#e6edf7;--muted:#8fa1b8;--primary:#818cf8;--primary-soft:#232a52;--accent:#22d3ee;--green:#4ade80;--red:#f87171;--orange:#fbbf24;--border:#233150;--shadow:0 3px 14px rgba(0,0,0,.5)}
+body{background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:70px}
+.hidden{display:none!important}
+.screen{display:none}.screen.active{display:block}
+.tab{display:none}.tab.active{display:block}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5}
+.app-title{font-weight:800;font-size:16px}
+.icon-btn{border:none;background:none;font-size:18px;cursor:pointer}
+.wrap{padding:14px 16px}
+.hero{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border-radius:18px;padding:18px;margin-bottom:12px}
+.hero h2{font-size:18px;margin-bottom:4px}
+.hero p{font-size:12px;opacity:.9}
+.sec-t{font-size:13px;font-weight:800;margin:10px 0 6px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.g-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;box-shadow:var(--shadow);cursor:pointer}
+.g-card .g-i{font-size:20px}
+.g-card .g-t{font-size:12px;font-weight:700;margin-top:4px}
+.g-card .g-s{font-size:10px;color:var(--muted)}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.panel h3{font-size:14px;margin-bottom:8px}
+label{display:block;font-size:12px;color:var(--muted);margin:8px 0 4px;text-align:left}
+input,select,textarea{width:100%;padding:11px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-size:14px;outline:none}
+textarea{min-height:90px;resize:vertical}
+.btn{width:100%;margin-top:10px;padding:12px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer}
+.btn.primary{background:var(--primary);color:#fff}
+html[data-theme=dark] .btn.primary{color:#101636}
+.btn.secondary{background:var(--primary-soft);color:var(--primary)}
+.btn.danger{background:var(--red);color:#fff}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:6px 0;white-space:nowrap}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--muted);border-radius:16px;padding:6px 12px;font-size:11px;cursor:pointer;flex-shrink:0}
+.chip.active{background:var(--primary);border-color:var(--primary);color:#fff}
+html[data-theme=dark] .chip.active{color:#101636}
+.item{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border);border-radius:12px;padding:11px;margin-bottom:8px;background:var(--card);cursor:pointer}
+.i-t{font-size:13px;font-weight:700}
+.i-s{font-size:11px;color:var(--muted)}
+.i-r{font-size:16px}
+.result{margin-top:10px;background:var(--primary-soft);border:1px dashed var(--primary);border-radius:12px;padding:10px;font-size:13px;white-space:pre-line}
+.formula{margin-top:6px;font-size:11px;color:var(--muted)}
+.star{border:none;background:none;font-size:18px;cursor:pointer}
+.opt{display:block;border:1px solid var(--border);border-radius:10px;padding:10px;margin:6px 0;font-size:13px;cursor:pointer;background:var(--bg)}
+.opt.sel{border-color:var(--primary);background:var(--primary-soft)}
+.opt.right{border-color:var(--green);background:rgba(22,163,74,.12)}
+.opt.wrong{border-color:var(--red);background:rgba(220,38,38,.10)}
+.nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--card);border-top:1px solid var(--border);z-index:6}
+.nav button{flex:1;padding:9px 0 7px;border:none;background:none;color:var(--muted);font-size:10px;cursor:pointer}
+.nav button .n-i{font-size:17px;display:block;margin-bottom:2px}
+.nav button.active{color:var(--primary)}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:20px;font-size:13px;z-index:20}
+.back{border:none;background:none;color:var(--primary);font-weight:700;font-size:13px;cursor:pointer;margin-bottom:8px}
+.q-count{font-size:11px;color:var(--muted)}
+.score{font-size:16px;font-weight:800;text-align:center;padding:10px}
+  </style>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
+<body>
+<!-- ===== PART 1 END ===== --><div id="screen-app" class="screen active">
+  <header class="topbar">
+    <div class="app-title">🛠 Instrumentation Master</div>
+    <button class="icon-btn" id="btn-theme">🌓</button>
+  </header>
 
-    <!-- Header Navigation -->
-    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50 px-4 py-3 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <i class="fa-solid fa-microchip text-sky-400 text-2xl"></i>
-            <div>
-                <h1 class="font-bold text-lg text-white leading-tight">InstruHub</h1>
-                <p class="text-[10px] text-slate-400">Instrumentation & Control Engineering Reference</p>
-            </div>
+  <div class="wrap">
+
+    <!-- HOME -->
+    <section id="tab-home" class="tab active">
+      <div class="hero">
+        <h2>Instrumentation Master</h2>
+        <p>66 tools · 30 MCQ sets · notes · formulas · dictionary — offline</p>
+      </div>
+      <div class="sec-t">📚 Subjects (tap for MCQ sets)</div>
+      <div class="grid" id="subj-grid"></div>
+      <div class="sec-t">⚡ Shortcuts</div>
+      <div class="grid" id="short-grid"></div>
+    </section>
+
+    <!-- TOOLS -->
+    <section id="tab-tools" class="tab">
+      <div id="tools-list-view">
+        <input id="tool-search" placeholder="Search tools (e.g. RTD, PID, dB)" />
+        <div class="chips" id="tool-cats"></div>
+        <div class="chips"><button class="chip" id="chip-bookmarks">⭐ Bookmarks</button></div>
+        <div id="tools-list"></div>
+      </div>
+      <div id="tool-view" class="hidden">
+        <button class="back" id="tool-back">← Back</button>
+        <div class="panel">
+          <h3 id="tv-name"></h3>
+          <div class="i-s" id="tv-desc"></div>
+          <div id="tv-inputs"></div>
+          <button class="btn primary" id="tv-calc">Calculate</button>
+          <div class="result hidden" id="tv-result"></div>
+          <div class="formula" id="tv-formula"></div>
+          <button class="btn secondary" id="tv-star">☆ Bookmark</button>
         </div>
-        <button id="themeToggleBtn" class="p-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-yellow-400 transition">
-            <i class="fa-solid fa-sun"></i>
-        </button>
-    </header>
+      </div>
+    </section>
 
-    <!-- Navigation Tabs (الگ الگ خانے) -->
-    <nav class="bg-slate-800/90 backdrop-blur border-b border-slate-700 px-4 py-2.5 flex gap-2 overflow-x-auto sticky top-[57px] z-40">
-        <button onclick="switchTab('tools')" id="tab-btn-tools" class="tab-btn active-tab px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 whitespace-nowrap">
-            <i class="fa-solid fa-boxes-stacked text-sky-400"></i> 66+ Tools Directory
-        </button>
-        <button onclick="switchTab('calculators')" id="tab-btn-calculators" class="tab-btn inactive-tab px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 whitespace-nowrap">
-            <i class="fa-solid fa-calculator text-emerald-400"></i> Signal & Temp Calculators
-        </button>
-        <button onclick="switchTab('mcqs')" id="tab-btn-mcqs" class="tab-btn inactive-tab px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 whitespace-nowrap">
-            <i class="fa-solid fa-list-check text-purple-400"></i> MCQs Prep
-        </button>
-        <button onclick="switchTab('dictionary')" id="tab-btn-dictionary" class="tab-btn inactive-tab px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 whitespace-nowrap">
-            <i class="fa-solid fa-book text-indigo-400"></i> Formulas & Dictionary
-        </button>
-        <button onclick="switchTab('notes')" id="tab-btn-notes" class="tab-btn inactive-tab px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 whitespace-nowrap">
-            <i class="fa-solid fa-note-sticky text-rose-400"></i> Personal Notes
-        </button>
-    </nav>
+    <!-- MCQ -->
+    <section id="tab-mcq" class="tab">
+      <div id="mcq-list-view">
+        <div class="sec-t">🎓 30 MCQ Practice Sets</div>
+        <div id="mcq-list"></div>
+      </div>
+      <div id="mcq-view" class="hidden">
+        <button class="back" id="mcq-back">← Back</button>
+        <div class="panel">
+          <h3 id="mq-title"></h3>
+          <div class="q-count" id="mq-count"></div>
+          <div id="mq-body"></div>
+          <button class="btn primary" id="mq-submit">Submit</button>
+          <div class="score hidden" id="mq-score"></div>
+        </div>
+      </div>
+    </section>
 
-    <!-- Main Content Area -->
-    <main class="p-4 max-w-5xl mx-auto w-full flex-1 space-y-4">
+    <!-- NOTES -->
+    <section id="tab-notes" class="tab">
+      <div class="panel">
+        <h3>📝 Notes</h3>
+        <textarea id="note-text" placeholder="Write your note..."></textarea>
+        <button class="btn primary" id="note-save">Save Note</button>
+      </div>
+      <div id="notes-list"></div>
+    </section>
 
-        <!-- ================= TAB 1: 66+ TOOLS DIRECTORY ================= -->
-        <section id="tab-tools" class="tab-content space-y-4">
-            <!-- Search Bar -->
-            <div class="relative">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
-                <input type="text" id="globalSearch" placeholder="Search 66+ sensors, transmitters, valves, PLCs..." class="w-full pl-10 pr-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs outline-none focus:border-sky-500 transition">
-            </div>
+    <!-- MORE -->
+    <section id="tab-more" class="tab">
+      <div class="panel"><h3>📐 Formulas</h3><div id="more-formulas"></div></div>
+      <div class="panel"><h3>📖 Dictionary</h3><input id="dict-search" placeholder="Search term..." /><div id="more-dict"></div></div>
+      <div class="panel"><h3>❓ Q&A</h3><div id="more-qa"></div></div>
+      <div class="panel"><h3>🧰 How-To</h3><div id="more-how"></div></div>
+      <div class="panel"><h3>🆕 Updates</h3><div id="more-updates"></div></div>
+      <div class="panel"><h3>ℹ️ About</h3><div class="i-s">Instrumentation Master v1.0 — made with ❤ for engineers. Works offline.</div></div>
+    </section>
+  </div>
 
-            <!-- Tools Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
-                    <h3 class="font-bold text-sky-400 text-sm flex items-center gap-2"><i class="fa-solid fa-gauge"></i> Pressure Transmitters</h3>
-                    <p class="text-xs text-slate-300">Piezoresistive, Capacitance, Differential Pressure (DP) cell, and Smart transmitters (HART/Fieldbus).</p>
-                </div>
-                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
-                    <h3 class="font-bold text-emerald-400 text-sm flex items-center gap-2"><i class="fa-solid fa-temperature-high"></i> Temperature Sensors</h3>
-                    <p class="text-xs text-slate-300">RTDs (Pt100/Pt1000), Thermocouples (Type K, J, T, E, R, S), Thermistors, and Pyrometers.</p>
-                </div>
-                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
-                    <h3 class="font-bold text-amber-400 text-sm flex items-center gap-2"><i class="fa-solid fa-water"></i> Flow Meters</h3>
-                    <p class="text-xs text-slate-300">Electromagnetic, Ultrasonic, Coriolis mass, Vortex shedding, Orifice plate, and Venturi tube.</p>
-                </div>
-                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
-                    <h3 class="font-bold text-purple-400 text-sm flex items-center gap-2"><i class="fa-solid fa-ruler-vertical"></i> Level Measurement</h3>
-                    <p class="text-xs text-slate-300">Guided Wave Radar, Non-contact Radar, Ultrasonic, Hydrostatic, Displacer, and Float switches.</p>
-                </div>
-                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
-                    <h3 class="font-bold text-rose-400 text-sm flex items-center gap-2"><i class="fa-solid fa-sliders"></i> Control Valves & Actuators</h3>
-                    <p class="text-xs text-slate-300">Globe, Ball, Butterfly, Plug valves, Pneumatic diaphragm actuators, Electro-hydraulic, and Smart Valve Positioners.</p>
-                </div>
-                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
-                    <h3 class="font-bold text-cyan-400 text-sm flex items-center gap-2"><i class="fa-solid fa-network-wired"></i> PLCs, DCS & SCADA</h3>
-                    <p class="text-xs text-slate-300">Programmable Logic Controllers, Distributed Control Systems, HMI panels, Modbus RTU/TCP, Profibus DP, and HART.</p>
-                </div>
-                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
-                    <h3 class="font-bold text-indigo-400 text-sm flex items-center gap-2"><i class="fa-solid fa-flask"></i> Analytical Instruments</h3>
-                    <p class="text-xs text-slate-300">pH / ORP meters, Conductivity analyzers, Gas Chromatographs, Oxygen analyzers, and Turbidity sensors.</p>
-                </div>
-                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
-                    <h3 class="font-bold text-orange-400 text-sm flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> Safety & Interlocks</h3>
-                    <p class="text-xs text-slate-300">SIS (Safety Instrumented Systems), ESD (Emergency Shutdown Valves), Flame & Gas detectors, SIL levels.</p>
-                </div>
-                <div class="tool-card p-4 bg-slate-800 border border-slate-700 rounded-xl space-y-1">
-                    <h3 class="font-bold text-teal-400 text-sm flex items-center gap-2"><i class="fa-solid fa-plug flex-shrink-0"></i> Signal Conditioners</h3>
-                    <p class="text-xs text-slate-300">Isolators, I/P Converters (Current to Pressure), P/I Converters, Frequency-to-Voltage converters, and Zener barriers.</p>
-                </div>
-            </div>
-        </section>
+  <nav class="nav">
+    <button data-tab="tab-home" class="active"><span class="n-i">🏠</span>Home</button>
+    <button data-tab="tab-tools"><span class="n-i">🧮</span>Tools</button>
+    <button data-tab="tab-mcq"><span class="n-i">🎓</span>MCQ</button>
+    <button data-tab="tab-notes"><span class="n-i">📝</span>Notes</button>
+    <button data-tab="tab-more"><span class="n-i">📚</span>More</button>
+  </nav>
+</div>
 
-        <!-- ================= TAB 2: CALCULATORS ================= -->
-        <section id="tab-calculators" class="tab-content hidden space-y-4">
-            <!-- 4-20mA Converter -->
-            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
-                <h2 class="font-bold text-emerald-400 text-sm flex items-center gap-2"><i class="fa-solid fa-wave-square"></i> 4–20 mA Signal Converter</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <input type="number" id="maInput" placeholder="Value (e.g. 12 or 50)" class="p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs outline-none focus:border-emerald-500">
-                    <select id="maUnit" class="p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs outline-none">
-                        <option value="ma">mA Signal to Process %</option>
-                        <option value="pct">Process % to mA Signal</option>
-                    </select>
-                </div>
-                <button onclick="calculate4to20mA()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-2.5 rounded-lg text-xs font-bold transition">Calculate Signal</button>
-                <div id="maResult" class="hidden p-3 bg-emerald-950/50 border border-emerald-800 rounded-lg text-emerald-300 text-xs font-mono text-center"></div>
-            </div>
+<div id="toast" class="toast hidden"></div>
+<!-- ===== PART 2 END ===== --><script>
+(function () {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const ls = { get: k => localStorage.getItem(k), set: (k, v) => localStorage.setItem(k, v) };
+  function toast(m) { const t = $('toast'); t.textContent = m; t.classList.remove('hidden'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.add('hidden'), 2200); }
+  function esc(s) { return String(s || '').replace(/[<>&"]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c])); }
 
-            <!-- Ohm's Law Calculator -->
-            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
-                <h2 class="font-bold text-sky-400 text-sm flex items-center gap-2"><i class="fa-solid fa-bolt"></i> Ohm's Law Calculator (V = I × R)</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <input type="number" id="ohmV" placeholder="Voltage (V)" class="p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs outline-none focus:border-sky-500">
-                    <input type="number" id="ohmI" placeholder="Current (I in Amps)" class="p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs outline-none focus:border-sky-500">
-                    <input type="number" id="ohmR" placeholder="Resistance (R in Ω)" class="p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs outline-none focus:border-sky-500">
-                </div>
-                <button onclick="calculateOhmsLaw()" class="w-full bg-sky-600 hover:bg-sky-500 py-2.5 rounded-lg text-xs font-bold transition">Calculate Missing Value</button>
-                <div id="ohmsResult" class="hidden p-3 bg-sky-950/50 border border-sky-800 rounded-lg text-sky-300 text-xs font-mono text-center"></div>
-            </div>
+  /* theme */
+  function applyTheme() {
+    const s = ls.get('im_theme');
+    const dark = s ? s === 'dark' : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  }
+  $('btn-theme').onclick = () => { const c = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; ls.set('im_theme', c); applyTheme(); };
 
-            <!-- RTD Pt100 Calculator -->
-            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
-                <h2 class="font-bold text-amber-400 text-sm flex items-center gap-2"><i class="fa-solid fa-temperature-high"></i> RTD Pt100 Temperature Calculator</h2>
-                <input type="number" id="rtdRes" placeholder="Resistance in Ohms (e.g. 100 for 0°C, 138.5 for 100°C)" class="w-full p-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs outline-none focus:border-amber-500">
-                <button onclick="calculateRTD()" class="w-full bg-amber-600 hover:bg-amber-500 py-2.5 rounded-lg text-xs font-bold transition">Calculate Temperature</button>
-                <div id="rtdResult" class="hidden p-3 bg-amber-950/50 border border-amber-800 rounded-lg text-amber-300 text-xs font-mono text-center"></div>
-            </div>
-        </section>
+  /* data holders (filled in later parts) */
+  const TOOLS = [], MCQS = [], FORMULAS = [], DICT = [], QA = [], HOW = [], UPDATES = [];
+  const SUBJECTS = [
+    { n: 'General Concepts', i: '📘' }, { n: 'Advanced Concepts', i: '📗' },
+    { n: 'Circuit Theory', i: '📕' }, { n: 'Digital Logic Circuits', i: '📙' },
+    { n: 'Electrical Machines', i: '⚙️' }, { n: 'Electronic Devices & Circuits', i: '🔌' },
+    { n: 'Linear ICs & Applications', i: '🧩' }, { n: 'Measurement & Instrumentation', i: '📏' },
+    { n: 'Transducer Engineering', i: '📡' }, { n: 'Transducers & Sensors', i: '🌡️' }
+  ];
 
-        <!-- ================= TAB 3: MCQs PREP ================= -->
-        <section id="tab-mcqs" class="tab-content hidden space-y-4">
-            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
-                <span class="text-[10px] font-bold text-purple-400 bg-purple-950/60 px-2 py-1 rounded">Question 1</span>
-                <h3 class="font-semibold text-xs text-slate-200">What live signal current corresponds to 0% Process Value in a standard 4–20 mA loop?</h3>
-                <div class="space-y-2">
-                    <button onclick="checkMcq(this, false)" class="w-full text-left p-3 bg-slate-900 hover:bg-slate-700 rounded-lg text-xs border border-slate-700 transition">A) 0 mA</button>
-                    <button onclick="checkMcq(this, true)" class="w-full text-left p-3 bg-slate-900 hover:bg-slate-700 rounded-lg text-xs border border-slate-700 transition">B) 4 mA</button>
-                    <button onclick="checkMcq(this, false)" class="w-full text-left p-3 bg-slate-900 hover:bg-slate-700 rounded-lg text-xs border border-slate-700 transition">C) 10 mA</button>
-                </div>
-                <div class="mcq-feedback hidden p-2 rounded text-xs font-semibold"></div>
-            </div>
+  /* state */
+  let toolCat = 'All', toolSearch = '', bmOnly = false, curTool = null, curSet = null, mcqFilter = '', answers = {};
 
-            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
-                <span class="text-[10px] font-bold text-purple-400 bg-purple-950/60 px-2 py-1 rounded">Question 2</span>
-                <h3 class="font-semibold text-xs text-slate-200">What is the nominal electrical resistance of a Pt100 RTD sensor at 0°C?</h3>
-                <div class="space-y-2">
-                    <button onclick="checkMcq(this, false)" class="w-full text-left p-3 bg-slate-900 hover:bg-slate-700 rounded-lg text-xs border border-slate-700 transition">A) 0 Ω</button>
-                    <button onclick="checkMcq(this, true)" class="w-full text-left p-3 bg-slate-900 hover:bg-slate-700 rounded-lg text-xs border border-slate-700 transition">B) 100 Ω</button>
-                    <button onclick="checkMcq(this, false)" class="w-full text-left p-3 bg-slate-900 hover:bg-slate-700 rounded-lg text-xs border border-slate-700 transition">C) 1000 Ω</button>
-                </div>
-                <div class="mcq-feedback hidden p-2 rounded text-xs font-semibold"></div>
-            </div>
-        </section>
+  function getBM() { try { return JSON.parse(ls.get('im_bm') || '[]'); } catch (e) { return []; } }
+  function setBM(a) { ls.set('im_bm', JSON.stringify(a)); }
 
-        <!-- ================= TAB 4: FORMULAS & DICTIONARY ================= -->
-        <section id="tab-dictionary" class="tab-content hidden space-y-4">
-            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
-                <h2 class="font-bold text-indigo-400 text-sm flex items-center gap-2"><i class="fa-solid fa-square-root-variable"></i> Key Instrumentation Formulas</h2>
-                <div class="space-y-2 text-xs">
-                    <div class="p-3 bg-slate-900 rounded border border-slate-700">
-                        <span class="font-bold text-sky-400">4-20 mA Signal Loop:</span>
-                        <p class="font-mono text-slate-300 mt-1">I = 4 + 16 × (PV / 100)</p>
-                    </div>
-                    <div class="p-3 bg-slate-900 rounded border border-slate-700">
-                        <span class="font-bold text-sky-400">RTD Pt100 Resistance:</span>
-                        <p class="font-mono text-slate-300 mt-1">Rt = R0 × (1 + α × T) where α = 0.00385 Ω/Ω/°C</p>
-                    </div>
-                </div>
-            </div>
+  /* tabs */
+  function goTab(id) {
+    document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.id === id));
+    if (id === 'tab-tools') renderTools();
+    if (id === 'tab-mcq') renderMcqList();
+    if (id === 'tab-notes') renderNotes();
+    if (id === 'tab-more') renderMore();
+    if (id === 'tab-home') renderHome();
+  }
+  document.querySelectorAll('.nav button').forEach(b => { b.onclick = () => goTab(b.dataset.tab); });
 
-            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
-                <h2 class="font-bold text-indigo-400 text-sm flex items-center gap-2"><i class="fa-solid fa-spell-check"></i> Terms & Dictionary</h2>
-                <div class="space-y-2 text-xs">
-                    <div class="p-3 bg-slate-900 rounded border border-slate-700">
-                        <span class="font-bold text-indigo-300">Hysteresis:</span>
-                        <p class="text-slate-300 mt-0.5">The maximum output difference for a given input when approached from increasing vs decreasing directions.</p>
-                    </div>
-                    <div class="p-3 bg-slate-900 rounded border border-slate-700">
-                        <span class="font-bold text-indigo-300">LVDT:</span>
-                        <p class="text-slate-300 mt-0.5">Linear Variable Differential Transformer - an electromechanical transducer for measuring displacement.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+  /* home */
+  function renderHome() {
+    const g = $('subj-grid'); g.innerHTML = '';
+    SUBJECTS.forEach(s => {
+      const d = document.createElement('div'); d.className = 'g-card';
+      d.innerHTML = '<div class="g-i">' + s.i + '</div><div class="g-t">' + s.n + '</div><div class="g-s">3 MCQ sets</div>';
+      d.onclick = () => { mcqFilter = s.n; goTab('tab-mcq'); };
+      g.appendChild(d);
+    });
+    const sh = [
+      ['🧮', 'All Tools', '66 engineering tools', () => goTab('tab-tools')],
+      ['🎓', 'MCQ Sets', '30 practice sets', () => { mcqFilter = ''; goTab('tab-mcq'); }],
+      ['📝', 'Notes', 'personal notes', () => goTab('tab-notes')],
+      ['📐', 'Formulas', 'quick reference', () => goTab('tab-more')],
+      ['📖', 'Dictionary', 'terms & meanings', () => goTab('tab-more')],
+      ['❓', 'Q&A', 'common questions', () => goTab('tab-more')],
+      ['🧰', 'How-To', 'short guides', () => goTab('tab-more')],
+      ['🆕', 'Updates', 'what is new', () => goTab('tab-more')]
+    ];
+    const sg = $('short-grid'); sg.innerHTML = '';
+    sh.forEach(x => {
+      const d = document.createElement('div'); d.className = 'g-card';
+      d.innerHTML = '<div class="g-i">' + x[0] + '</div><div class="g-t">' + x[1] + '</div><div class="g-s">' + x[2] + '</div>';
+      d.onclick = x[3]; sg.appendChild(d);
+    });
+  }
 
-        <!-- ================= TAB 5: PERSONAL NOTES ================= -->
-        <section id="tab-notes" class="tab-content hidden space-y-4">
-            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-3">
-                <div class="flex justify-between items-center">
-                    <h2 class="font-bold text-rose-400 text-sm flex items-center gap-2"><i class="fa-solid fa-note-sticky"></i> Personal Notes Engine</h2>
-                    <span class="text-[10px] text-slate-400">Auto-saved in browser</span>
-                </div>
-                <textarea id="noteInput" rows="6" placeholder="Write personal formulas, plant notes, or project tasks here..." class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-xs outline-none focus:border-rose-500 transition"></textarea>
-                <div class="flex justify-between items-center">
-                    <button onclick="saveNote()" class="bg-rose-600 hover:bg-rose-500 px-5 py-2.5 rounded-lg text-xs font-bold transition">Save Note</button>
-                    <div id="notesList"></div>
-                </div>
-            </div>
-        </section>
+  /* tools */
+  function cats() { const s = ['All']; TOOLS.forEach(t => { if (s.indexOf(t.cat) === -1) s.push(t.cat); }); return s; }
+  function renderToolCats() {
+    const box = $('tool-cats'); box.innerHTML = '';
+    cats().forEach(c => {
+      const b = document.createElement('button'); b.className = 'chip' + (toolCat === c ? ' active' : ''); b.textContent = c;
+      b.onclick = () => { toolCat = c; renderToolCats(); renderTools(); };
+      box.appendChild(b);
+    });
+  }
+  function renderTools() {
+    const q = toolSearch.toLowerCase(); const bm = getBM(); const box = $('tools-list'); box.innerHTML = '';
+    const list = TOOLS.filter(t => {
+      if (bmOnly && bm.indexOf(t.id) === -1) return false;
+      if (toolCat !== 'All' && t.cat !== toolCat) return false;
+      if (q && t.name.toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+    if (!list.length) { box.innerHTML = '<div class="i-s" style="padding:10px 0">No tools found.</div>'; return; }
+    list.forEach(t => {
+      const d = document.createElement('div'); d.className = 'item';
+      d.innerHTML = '<div><div class="i-t">' + t.name + '</div><div class="i-s">' + t.cat + '</div></div><div class="i-r">' + (bm.indexOf(t.id) > -1 ? '⭐' : '›') + '</div>';
+      d.onclick = () => openTool(t.id);
+      box.appendChild(d);
+    });
+  }
+  function openTool(id) {
+    const t = TOOLS.find(x => x.id === id); if (!t) return; curTool = t;
+    $('tools-list-view').classList.add('hidden'); $('tool-view').classList.remove('hidden');
+    $('tv-name').textContent = t.name; $('tv-desc').textContent = t.desc || '';
+    $('tv-formula').textContent = 'Formula: ' + (t.formula || '—');
+    $('tv-result').classList.add('hidden');
+    const box = $('tv-inputs'); box.innerHTML = '';
+    (t.inputs || []).forEach(inp => {
+      const l = document.createElement('label'); l.textContent = inp.label; let el;
+      if (inp.type === 'select') {
+        el = document.createElement('select'); el.id = 'in_' + inp.k;
+        (inp.opts || []).forEach(o => { const op = document.createElement('option'); op.value = o; op.textContent = o; el.appendChild(op); });
+      } else if (inp.type === 'text') {
+        el = document.createElement('input'); el.type = 'text'; el.id = 'in_' + inp.k; el.placeholder = inp.ph || '';
+        if (inp.def !== undefined) el.value = inp.def;
+      } else {
+        el = document.createElement('input'); el.type = 'number'; el.step = 'any'; el.id = 'in_' + inp.k;
+        if (inp.def !== undefined) el.value = inp.def;
+      }
+      box.appendChild(l); box.appendChild(el);
+    });
+    updateStar();
+  }
+  function updateStar() { if (!curTool) return; $('tv-star').textContent = getBM().indexOf(curTool.id) > -1 ? '★ Bookmarked' : '☆ Bookmark'; }
+  $('tv-star').onclick = () => {
+    if (!curTool) return; const bm = getBM(); const ix = bm.indexOf(curTool.id);
+    if (ix > -1) { bm.splice(ix, 1); toast('Bookmark removed'); } else { bm.push(curTool.id); toast('Bookmarked'); }
+    setBM(bm); updateStar();
+  };
+  $('tv-back').onclick = () => { $('tool-view').classList.add('hidden'); $('tools-list-view').classList.remove('hidden'); renderTools(); };
+  $('tv-calc').onclick = () => {
+    if (!curTool) return; const vals = {};
+    (curTool.inputs || []).forEach(inp => {
+      const el = $('in_' + inp.k);
+      vals[inp.k] = (!inp.type || inp.type === 'number') ? parseFloat(el.value) : el.value;
+    });
+    try { $('tv-result').textContent = curTool.calc(vals); $('tv-result').classList.remove('hidden'); }
+    catch (e) { toast('Check inputs'); }
+  };
+  $('tool-search').oninput = e => { toolSearch = e.target.value; renderTools(); };
+  $('chip-bookmarks').onclick = () => { bmOnly = !bmOnly; $('chip-bookmarks').classList.toggle('active', bmOnly); renderTools(); };
 
-    </main>
+  /* mcq */
+  function renderMcqList() {
+    const box = $('mcq-list'); box.innerHTML = '';
+    const list = MCQS.filter(s => !mcqFilter || s.title.indexOf(mcqFilter) === 0);
+    if (!list.length) { box.innerHTML = '<div class="i-s">No sets.</div>'; return; }
+    list.forEach(s => {
+      const d = document.createElement('div'); d.className = 'item';
+      d.innerHTML = '<div><div class="i-t">' + s.title + '</div><div class="i-s">' + s.qs.length + ' questions</div></div><div class="i-r">›</div>';
+      d.onclick = () => openSet(s.id);
+      box.appendChild(d);
+    });
+  }
+  function openSet(id) {
+    const s = MCQS.find(x => x.id === id); if (!s) return; curSet = s; answers = {};
+    $('mcq-list-view').classList.add('hidden'); $('mcq-view').classList.remove('hidden');
+    $('mq-title').textContent = s.title; $('mq-count').textContent = s.qs.length + ' questions';
+    $('mq-score').classList.add('hidden');
+    const box = $('mq-body'); box.innerHTML = '';
+    s.qs.forEach((q, qi) => {
+      const w = document.createElement('div');
+      w.innerHTML = '<div class="i-t" style="margin:10px 0 4px">Q' + (qi + 1) + '. ' + q.q + '</div>';
+      q.opts.forEach((o, oi) => {
+        const b = document.createElement('div'); b.className = 'opt'; b.textContent = o;
+        b.onclick = () => { w.querySelectorAll('.opt').forEach(x => x.classList.remove('sel')); b.classList.add('sel'); answers[qi] = oi; };
+        w.appendChild(b);
+      });
+      box.appendChild(w);
+    });
+  }
+  $('mcq-back').onclick = () => { $('mcq-view').classList.add('hidden'); $('mcq-list-view').classList.remove('hidden'); };
+  $('mq-submit').onclick = () => {
+    if (!curSet) return; let score = 0;
+    curSet.qs.forEach((q, qi) => {
+      const w = $('mq-body').children[qi];
+      w.querySelectorAll('.opt').forEach((b, oi) => {
+        b.classList.remove('sel');
+        if (oi === q.a) b.classList.add('right');
+        else if (answers[qi] === oi) b.classList.add('wrong');
+      });
+      if (answers[qi] === q.a) score++;
+    });
+    $('mq-score').textContent = 'Score: ' + score + ' / ' + curSet.qs.length;
+    $('mq-score').classList.remove('hidden');
+  };
 
-    <script src="script.js"></script>
+  /* notes */
+  function getNotes() { try { return JSON.parse(ls.get('im_notes') || '[]'); } catch (e) { return []; } }
+  function renderNotes() {
+    const box = $('notes-list'); box.innerHTML = '';
+    getNotes().forEach((n, ix) => {
+      const d = document.createElement('div'); d.className = 'item';
+      d.innerHTML = '<div><div class="i-t">' + esc(n.t) + '</div><div class="i-s">' + new Date(n.at).toLocaleString() + '</div></div><div class="i-r">🗑</div>';
+      d.querySelector('.i-r').onclick = () => { const a = getNotes(); a.splice(ix, 1); ls.set('im_notes', JSON.stringify(a)); renderNotes(); toast('Note deleted'); };
+      box.appendChild(d);
+    });
+  }
+  $('note-save').onclick = () => {
+    const t = $('note-text').value.trim(); if (!t) return toast('Write something first');
+    const a = getNotes(); a.unshift({ t: t, at: Date.now() });
+    ls.set('im_notes', JSON.stringify(a)); $('note-text').value = ''; renderNotes(); toast('Note saved');
+  };
+
+  /* more */
+  function renderDict() {
+    const q = ($('dict-search').value || '').toLowerCase();
+    $('more-dict').innerHTML = DICT.filter(d => !q || d.t.toLowerCase().indexOf(q) > -1)
+      .map(d => '<div class="item" style="cursor:default"><div><div class="i-t">' + esc(d.t) + '</div><div class="i-s">' + esc(d.m) + '</div></div></div>').join('');
+  }
+  function renderMore() {
+    $('more-formulas').innerHTML = FORMULAS.map(f => '<div class="item" style="cursor:default"><div><div class="i-t">' + esc(f.n) + '</div><div class="i-s">' + esc(f.f) + '</div></div></div>').join('');
+    renderDict();
+    $('more-qa').innerHTML = QA.map(x => '<div class="item" style="cursor:default"><div><div class="i-t">Q: ' + esc(x.q) + '</div><div class="i-s">A: ' + esc(x.a) + '</div></div></div>').join('');
+    $('more-how').innerHTML = HOW.map(x => '<div class="item" style="cursor:default"><div><div class="i-t">' + esc(x.t) + '</div><div class="i-s">' + esc(x.s) + '</div></div></div>').join('');
+    $('more-updates').innerHTML = UPDATES.map(x => '<div class="item" style="cursor:default"><div><div class="i-t">' + esc(x.v) + '</div><div class="i-s">' + esc(x.s) + '</div></div></div>').join('');
+  }
+  $('dict-search').oninput = renderDict;
+
+  /* boot — called from the last part after all data is in */
+  window.bootApp = function () { applyTheme(); renderHome(); renderToolCats(); renderTools(); renderMcqList(); renderNotes(); renderMore(); };
+  applyTheme();
+})();
+</script>
+<!-- ===== PART 3 END ===== --><script>
+/* ===== TOOLS 1-22 ===== */
+TOOLS.push(
+  { id: 'unitconv', name: 'Instrumentation Unit Converter', cat: 'Signals', desc: 'Pressure unit conversion', formula: '1 bar = 14.5038 psi = 100 kPa', inputs: [{ k: 'v', label: 'Value' }, { k: 'from', label: 'From unit', type: 'select', opts: ['psi', 'bar', 'kPa', 'kg/cm2', 'mH2O', 'atm'] }], calc: i => { const F = { psi: 1, bar: 14.5038, kPa: 0.145038, 'kg/cm2': 14.2233, mH2O: 1.4223, atm: 14.6959 }; const p = i.v * F[i.from]; return 'psi: ' + p.toFixed(4) + '\nbar: ' + (p / 14.5038).toFixed(4) + '\nkPa: ' + (p / 0.145038).toFixed(3) + '\nkg/cm2: ' + (p / 14.2233).toFixed(4) + '\nmH2O: ' + (p / 1.4223).toFixed(4) + '\natm: ' + (p / 14.6959).toFixed(4); } },
+  { id: 'db', name: 'dB Calculator', cat: 'Signals', desc: 'Ratio to decibels', formula: 'dB = 10log(P2/P1) or 20log(V2/V1)', inputs: [{ k: 't', label: 'Type', type: 'select', opts: ['Power', 'Voltage'] }, { k: 'a', label: 'Output (P2 or V2)' }, { k: 'b', label: 'Reference (P1 or V1)' }], calc: i => { if (i.a <= 0 || i.b <= 0) throw 0; const d = i.t === 'Power' ? 10 * Math.log10(i.a / i.b) : 20 * Math.log10(i.a / i.b); return 'Result: ' + d.toFixed(3) + ' dB'; } },
+  { id: 'snr', name: 'SNR Calculator', cat: 'Signals', desc: 'Signal to noise ratio in dB', formula: 'SNR = 10log10(S/N)', inputs: [{ k: 's', label: 'Signal power' }, { k: 'n', label: 'Noise power' }], calc: i => { if (i.n <= 0) throw 0; return 'SNR: ' + (10 * Math.log10(i.s / i.n)).toFixed(2) + ' dB'; } },
+  { id: 'rms', name: 'RMS Calculator', cat: 'Signals', desc: 'Peak to RMS by waveform', formula: 'Sine: Vp/1.414, Triangle: Vp/1.732', inputs: [{ k: 'w', label: 'Waveform', type: 'select', opts: ['Sine', 'Square', 'Triangle'] }, { k: 'p', label: 'Peak value' }], calc: i => { const r = i.w === 'Sine' ? i.p / 1.41421 : i.w === 'Square' ? i.p : i.p / 1.73205; return 'RMS: ' + r.toFixed(4); } },
+  { id: 'samp', name: 'Sampling Frequency Calculator', cat: 'Signals', desc: 'Nyquist rate', formula: 'fs(min) = 2 x fmax', inputs: [{ k: 'f', label: 'Max signal frequency (Hz)' }], calc: i => 'Minimum (Nyquist): ' + (2 * i.f) + ' Hz\nRecommended (2.56x): ' + (2.56 * i.f) + ' Hz' },
+  { id: 'rtd', name: 'RTD Calculator (PT100)', cat: 'Sensors', desc: 'Temperature vs resistance', formula: 'R = R0(1 + AT + BT^2), approx 0.385 ohm/C', inputs: [{ k: 'm', label: 'Mode', type: 'select', opts: ['Temp to Resistance', 'Resistance to Temp'] }, { k: 'v', label: 'Value (C or ohm)' }], calc: i => i.m === 'Temp to Resistance' ? 'Resistance: ' + (100 * (1 + 3.9083e-3 * i.v - 5.775e-7 * i.v * i.v)).toFixed(2) + ' ohm' : 'Temperature (approx): ' + ((i.v - 100) / 0.385).toFixed(1) + ' C' },
+  { id: 'tc', name: 'Thermocouple Converter (Type K)', cat: 'Sensors', desc: 'Approx 41 uV per C (0-500C)', formula: 'mV = 0.041 x T', inputs: [{ k: 'm', label: 'Mode', type: 'select', opts: ['Temp to mV', 'mV to Temp'] }, { k: 'v', label: 'Value (C or mV)' }], calc: i => i.m === 'Temp to mV' ? 'Output: ' + (i.v * 0.041).toFixed(3) + ' mV' : 'Temperature: ' + (i.v / 0.041).toFixed(1) + ' C (approx)' },
+  { id: 'thm', name: 'Thermistor Calculator', cat: 'Sensors', desc: 'Beta model NTC', formula: 'R = R0 exp(B(1/T - 1/T0))', inputs: [{ k: 'm', label: 'Mode', type: 'select', opts: ['Temp to R', 'R to Temp'] }, { k: 'r0', label: 'R0 at 25C (ohm)', def: 10000 }, { k: 'b', label: 'Beta (K)', def: 3950 }, { k: 'v', label: 'Value (C or ohm)' }], calc: i => { if (i.m === 'Temp to R') { const R = i.r0 * Math.exp(i.b * (1 / (i.v + 273.15) - 1 / 298.15)); return 'Resistance: ' + R.toFixed(1) + ' ohm'; } const T = 1 / (1 / 298.15 + Math.log(i.v / i.r0) / i.b) - 273.15; return 'Temperature: ' + T.toFixed(2) + ' C'; } },
+  { id: 'strain', name: 'Strain Gauge Calculator', cat: 'Sensors', desc: 'Quarter bridge output', formula: 'Vout = Vex x GF x strain / 4', inputs: [{ k: 'v', label: 'Excitation (V)', def: 10 }, { k: 'g', label: 'Gauge factor', def: 2 }, { k: 'e', label: 'Strain (microstrain)' }], calc: i => 'Output: ' + (i.v * i.g * (i.e / 1e6) / 4 * 1000).toFixed(4) + ' mV' },
+  { id: 'press', name: 'Pressure Sensor Output Calculator', cat: 'Sensors', desc: 'Pressure to signal', formula: 'out = 4 + 16 x (P-PL)/(PH-PL)', inputs: [{ k: 'pl', label: 'Range low (e.g. 0)' }, { k: 'ph', label: 'Range high (e.g. 10 bar)' }, { k: 'o', label: 'Output type', type: 'select', opts: ['4-20 mA', '0-10 V'] }, { k: 'p', label: 'Measured pressure' }], calc: i => { const r = (i.p - i.pl) / (i.ph - i.pl); return i.o === '4-20 mA' ? 'Output: ' + (4 + 16 * r).toFixed(2) + ' mA' : 'Output: ' + (10 * r).toFixed(2) + ' V'; } },
+  { id: 'lvdt', name: 'LVDT Displacement Calculator', cat: 'Sensors', desc: 'Output to displacement', formula: 'd = Vout / (Sens x Vex)', inputs: [{ k: 'v', label: 'Excitation (V)', def: 5 }, { k: 's', label: 'Sensitivity (mV/V/mm)', def: 50 }, { k: 'o', label: 'Output (mV)' }], calc: i => 'Displacement: ' + (i.o / (i.s * i.v)).toFixed(4) + ' mm' },
+  { id: 'ma', name: '4-20 mA Signal Converter', cat: 'Signals', desc: 'mA, percent, engineering', formula: '% = (I-4)/16 x 100', inputs: [{ k: 'm', label: 'Mode', type: 'select', opts: ['mA to %', '% to mA', 'mA to Engineering'] }, { k: 'v', label: 'Value' }, { k: 'l', label: 'LRV (eng)', def: 0 }, { k: 'h', label: 'URV (eng)', def: 100 }], calc: i => { if (i.m === 'mA to %') return ((i.v - 4) / 16 * 100).toFixed(1) + ' %'; if (i.m === '% to mA') return (4 + 16 * i.v / 100).toFixed(2) + ' mA'; const r = (i.v - 4) / 16; return 'Engineering: ' + (i.l + r * (i.h - i.l)).toFixed(2); } },
+  { id: 'modbus', name: 'Modbus Address Converter', cat: 'Signals', desc: 'Decimal to hex and 4x map', formula: 'Holding = 40001 + address', inputs: [{ k: 'a', label: 'Address (decimal)' }], calc: i => 'Hex: 0x' + i.a.toString(16).toUpperCase() + '\nHolding register: 4' + String(i.a + 1).padStart(4, '0') },
+  { id: 'crc', name: 'CRC16 Modbus Calculator', cat: 'Signals', desc: 'Hex bytes like: 01 03 00 00 00 0A', formula: 'Modbus RTU CRC-16', inputs: [{ k: 'h', label: 'Hex bytes', type: 'text', ph: '01 03 00 00 00 0A' }], calc: i => { const b = i.h.trim().split(/\s+/).map(x => parseInt(x, 16)); if (b.some(isNaN)) throw 0; let c = 0xFFFF; b.forEach(x => { c ^= x; for (let j = 0; j < 8; j++) c = (c & 1) ? (c >> 1) ^ 0xA001 : c >> 1; }); const lo = c & 0xFF, hi = c >> 8; return 'CRC: ' + hi.toString(16).toUpperCase().padStart(2, '0') + ' ' + lo.toString(16).toUpperCase().padStart(2, '0') + ' (hi lo)\nFrame: ' + i.h.trim() + ' ' + lo.toString(16).padStart(2, '0') + ' ' + hi.toString(16).padStart(2, '0'); } },
+  { id: 'hart', name: 'HART Command Lookup', cat: 'Signals', desc: 'Common universal commands', formula: 'HART universal commands', inputs: [{ k: 'c', label: 'Command number' }], calc: i => { const M = { 0: 'Read Unique Identifier', 1: 'Read Primary Variable', 2: 'Read Loop Current and Percent', 3: 'Read Dynamic Variables', 6: 'Write Polling Address', 11: 'Read Unique ID by Tag', 12: 'Read Message', 13: 'Read Tag, Descriptor, Date', 17: 'Write Message', 18: 'Write Tag, Descriptor, Date', 33: 'Read Device Variables', 48: 'Read Additional Device Status' }; return 'Command ' + i.c + ': ' + (M[i.c] || 'Not in quick reference'); } },
+  { id: 'tag', name: 'Instrument Tag Number Generator', cat: 'Signals', desc: 'ISA style tag', formula: 'First letter + function + loop', inputs: [{ k: 's', label: 'Measured variable', type: 'select', opts: ['F - Flow', 'T - Temperature', 'P - Pressure', 'L - Level', 'A - Analysis'] }, { k: 'f', label: 'Function', type: 'select', opts: ['T - Transmitter', 'I - Indicator', 'C - Controller', 'V - Valve'] }, { k: 'n', label: 'Loop number', def: 101 }], calc: i => 'Tag: ' + i.s.charAt(0) + i.f.charAt(0) + '-' + i.n },
+  { id: 'logger', name: 'Data Logger File Size Estimator', cat: 'Signals', desc: '4 bytes per sample', formula: 'Size = ch x rate x 4 x sec', inputs: [{ k: 'c', label: 'Channels', def: 8 }, { k: 'r', label: 'Sample rate (Hz)', def: 1 }, { k: 'h', label: 'Hours', def: 24 }], calc: i => { const mb = i.c * i.r * 4 * 3600 * i.h / 1048576; return 'Estimated: ' + mb.toFixed(2) + ' MB (' + (mb / 1024).toFixed(3) + ' GB)'; } },
+  { id: 'ohm', name: "Ohm's Law Calculator", cat: 'Electrical', desc: 'V and I to R and P', formula: 'R = V/I, P = V x I', inputs: [{ k: 'v', label: 'Voltage (V)' }, { k: 'i', label: 'Current (A)' }], calc: i => 'Resistance: ' + (i.v / i.i).toFixed(3) + ' ohm\nPower: ' + (i.v * i.i).toFixed(3) + ' W' },
+  { id: 'wheat', name: 'Wheatstone Bridge Calculator', cat: 'Electrical', desc: 'Balanced bridge Rx', formula: 'Rx = R2 x R3 / R1', inputs: [{ k: 'r1', label: 'R1' }, { k: 'r2', label: 'R2' }, { k: 'r3', label: 'R3' }], calc: i => 'Rx: ' + (i.r2 * i.r3 / i.r1).toFixed(3) + ' ohm' },
+  { id: 'vdrop', name: 'Cable Voltage Drop Calculator', cat: 'Electrical', desc: 'Copper cable', formula: '1ph: 2ILrho/A, 3ph: 1.732ILrho/A', inputs: [{ k: 'i', label: 'Current (A)' }, { k: 'l', label: 'Length (m)' }, { k: 'a', label: 'Cross-section (mm2)', def: 2.5 }, { k: 'p', label: 'Phase', type: 'select', opts: ['Single', 'Three'] }], calc: i => { const r = 0.0175; const d = i.p === 'Single' ? 2 * i.i * i.l * r / i.a : 1.732 * i.i * i.l * r / i.a; return 'Voltage drop: ' + d.toFixed(2) + ' V'; } },
+  { id: 'loop', name: 'Loop Resistance Check Tool', cat: 'Electrical', desc: '4-20 mA loop limit', formula: 'Rmax = (Vs - Vmin) / 0.02', inputs: [{ k: 's', label: 'Supply voltage (V)', def: 24 }, { k: 'm', label: 'Transmitter min voltage (V)', def: 12 }, { k: 'r', label: 'Actual loop resistance (ohm)' }], calc: i => { const mx = (i.s - i.m) / 0.02; return 'Max allowed: ' + mx.toFixed(0) + ' ohm\nYour loop: ' + i.r + ' ohm => ' + (i.r <= mx ? 'PASS' : 'FAIL'); } },
+  { id: 'is', name: 'Intrinsic Safety Energy Calculator', cat: 'Electrical', desc: 'Worst case output power', formula: 'Po = Uo x Io / 4', inputs: [{ k: 'u', label: 'Uo (V)' }, { k: 'i', label: 'Io (mA)' }], calc: i => 'Po: ' + (i.u * i.i / 4).toFixed(1) + ' mW (compare with device Pi)' }
+);
+/* ===== PART 4 END ===== */<script>
+/* ===== TOOLS 23-44 ===== */
+TOOLS.push(
+  { id: 'pid', name: 'PID Tuning Calculator', cat: 'Control', desc: 'Ziegler-Nichols', formula: 'Kp=0.6Ku, Ti=Pu/2, Td=Pu/8', inputs: [{ k: 'ku', label: 'Ultimate gain Ku' }, { k: 'pu', label: 'Ultimate period Pu (s)' }], calc: i => 'Kp: ' + (0.6 * i.ku).toFixed(3) + '\nTi: ' + (i.pu / 2).toFixed(2) + ' s\nTd: ' + (i.pu / 8).toFixed(2) + ' s' },
+  { id: 'tf', name: 'Transfer Function Simplifier', cat: 'Control', desc: 'Series/parallel/feedback', formula: 'FB: G/(1+GH)', inputs: [{ k: 'm', label: 'Connection', type: 'select', opts: ['Series', 'Parallel', 'Feedback'] }, { k: 'g1', label: 'G1' }, { k: 'g2', label: 'G2 (or H)' }], calc: i => i.m === 'Series' ? 'G = ' + (i.g1 * i.g2).toFixed(4) : i.m === 'Parallel' ? 'G = ' + (i.g1 + i.g2).toFixed(4) : 'G = ' + (i.g1 / (1 + i.g1 * i.g2)).toFixed(4) },
+  { id: 'tcdt', name: 'Time Constant & Dead Time Estimator', cat: 'Control', desc: 'From step response', formula: 'tau = t63 - td', inputs: [{ k: 't63', label: 'Time to 63.2% (s)' }, { k: 'td', label: 'Dead time (s)' }], calc: i => 'Time constant: ' + (i.t63 - i.td).toFixed(2) + ' s\nDead time: ' + i.td + ' s' },
+  { id: 'orifice', name: 'Orifice Plate Flow Calculator', cat: 'Flow', desc: 'Q from DP', formula: 'Q = Cd A sqrt(2DP/rho)', inputs: [{ k: 'd', label: 'Orifice dia (mm)', def: 50 }, { k: 'dp', label: 'DP (Pa)' }, { k: 'r', label: 'Density', def: 1000 }, { k: 'c', label: 'Cd', def: 0.61 }], calc: i => { const A = Math.PI * Math.pow(i.d / 2000, 2); return 'Flow: ' + (i.c * A * Math.sqrt(2 * i.dp / i.r) * 3600).toFixed(3) + ' m3/h'; } },
+  { id: 'venturi', name: 'Venturi & Nozzle Flow Calculator', cat: 'Flow', desc: 'High accuracy DP meter', formula: 'Q = Cd A sqrt(2DP/rho)', inputs: [{ k: 'd', label: 'Throat dia (mm)', def: 50 }, { k: 'dp', label: 'DP (Pa)' }, { k: 'r', label: 'Density', def: 1000 }, { k: 'c', label: 'Cd', def: 0.98 }], calc: i => { const A = Math.PI * Math.pow(i.d / 2000, 2); return 'Flow: ' + (i.c * A * Math.sqrt(2 * i.dp / i.r) * 3600).toFixed(3) + ' m3/h'; } },
+  { id: 'rota', name: 'Rotameter Sizing Calculator', cat: 'Flow', desc: 'Density correction', formula: 'Q2 = Q1 sqrt((rf-r2)/(rf-r1))', inputs: [{ k: 'q', label: 'Calibrated flow Q1' }, { k: 'rf', label: 'Float density', def: 8000 }, { k: 'r1', label: 'Cal fluid density', def: 1000 }, { k: 'r2', label: 'New fluid density', def: 800 }], calc: i => 'Corrected flow: ' + (i.q * Math.sqrt((i.rf - i.r2) / (i.rf - i.r1))).toFixed(3) },
+  { id: 'dptx', name: 'DP Transmitter Range Calculator', cat: 'Flow', desc: 'Level by DP', formula: 'URV = h rho g', inputs: [{ k: 'h', label: 'Max level (m)' }, { k: 'r', label: 'Density', def: 1000 }], calc: i => 'LRV: 0 kPa\nURV: ' + (i.h * i.r * 9.81 / 1000).toFixed(2) + ' kPa\nFull level = 20 mA' },
+  { id: 'head', name: 'Tank Level & Pressure Head Converter', cat: 'Flow', desc: 'Pressure to head', formula: 'h = P/(rho g)', inputs: [{ k: 'p', label: 'Pressure (kPa)' }, { k: 'r', label: 'Density', def: 1000 }], calc: i => 'Head: ' + (i.p * 1000 / (i.r * 9.81)).toFixed(3) + ' m' },
+  { id: 'calcurve', name: 'Calibration Curve Generator', cat: 'Calibration', desc: 'Linear fit from points', formula: 'y = mx + c', inputs: [{ k: 'pts', label: 'Points x,y', type: 'text', ph: '0,4 25,8 50,12 75,16 100,20' }], calc: i => { const ps = i.pts.trim().split(/\s+/).map(p => p.split(',').map(Number)); if (ps.some(p => p.length !== 2 || p.some(isNaN))) throw 0; const n = ps.length; let sx = 0, sy = 0, sxy = 0, sxx = 0; ps.forEach(p => { sx += p[0]; sy += p[1]; sxy += p[0] * p[1]; sxx += p[0] * p[0]; }); const m = (n * sxy - sx * sy) / (n * sxx - sx * sx); const c = (sy - m * sx) / n; return 'Slope: ' + m.toFixed(4) + '\nIntercept: ' + c.toFixed(4); } },
+  { id: 'linerr', name: 'Linearity Error Calculator', cat: 'Calibration', desc: 'Deviation from line', formula: '% = maxdev/span x 100', inputs: [{ k: 'd', label: 'Max deviation' }, { k: 's', label: 'Span' }], calc: i => 'Linearity error: ' + (i.d / i.s * 100).toFixed(3) + ' %' },
+  { id: 'hyst', name: 'Hysteresis Error Calculator', cat: 'Calibration', desc: 'Up vs down', formula: '% = maxdiff/span x 100', inputs: [{ k: 'd', label: 'Max up-down diff' }, { k: 's', label: 'Span' }], calc: i => 'Hysteresis: ' + (i.d / i.s * 100).toFixed(3) + ' %' },
+  { id: 'uncert', name: 'Measurement Uncertainty Calculator', cat: 'Calibration', desc: 'RSS, k=2', formula: 'U = 2 sqrt(sum u^2)', inputs: [{ k: 'u', label: 'Components (comma)', type: 'text', ph: '0.1,0.2,0.05' }], calc: i => { const a = i.u.split(',').map(Number); if (a.some(isNaN)) throw 0; const c = Math.sqrt(a.reduce((s, x) => s + x * x, 0)); return 'Combined: ' + c.toFixed(4) + '\nExpanded (k=2): ' + (2 * c).toFixed(4); } },
+  { id: 'valvecv', name: 'Control Valve Sizing Calculator', cat: 'Control', desc: 'Liquid Cv', formula: 'Cv = Q sqrt(SG/DP)', inputs: [{ k: 'q', label: 'Flow (GPM)' }, { k: 'dp', label: 'DP (psi)' }, { k: 'sg', label: 'SG', def: 1 }], calc: i => 'Required Cv: ' + (i.q * Math.sqrt(i.sg / i.dp)).toFixed(2) },
+  { id: 'actuator', name: 'Actuator Sizing Calculator', cat: 'Control', desc: 'Force from pressure', formula: 'F = A x P x 10', inputs: [{ k: 'a', label: 'Area (cm2)' }, { k: 'p', label: 'Pressure (bar)' }], calc: i => 'Force: ' + (i.a * i.p * 10).toFixed(1) + ' N (' + (i.a * i.p * 10 / 9.81).toFixed(2) + ' kgf)' },
+  { id: 'sil', name: 'SIL PFDavg Calculator', cat: 'Control', desc: '1oo1 proof test', formula: 'PFD = lambda x TI / 2', inputs: [{ k: 'l', label: 'Failure rate /h (e.g. 0.000001)' }, { k: 't', label: 'Test interval (h)', def: 8760 }], calc: i => { const p = i.l * i.t / 2; return 'PFDavg: ' + p.toExponential(3) + '\nAchieved: ' + (p < 0.001 ? 'SIL 3' : p < 0.01 ? 'SIL 2' : p < 0.1 ? 'SIL 1' : 'Below SIL 1'); } },
+  { id: 'mtbf', name: 'MTBF / MTTF Estimator', cat: 'Control', desc: 'Reliability basics', formula: 'MTBF = hours/failures', inputs: [{ k: 'h', label: 'Operating hours' }, { k: 'f', label: 'Failures' }, { k: 'r', label: 'MTTR (h)', def: 2 }], calc: i => { const m = i.h / i.f; return 'MTBF: ' + m.toFixed(1) + ' h\nAvailability: ' + (m / (m + i.r) * 100).toFixed(3) + ' %'; } },
+  { id: 'redund', name: 'Redundancy Reliability Calculator', cat: 'Control', desc: '1oo1 vs 1oo2', formula: '1oo2 approx', inputs: [{ k: 'l', label: 'Lambda /h' }, { k: 't', label: 'TI (h)', def: 8760 }], calc: i => { const p1 = i.l * i.t / 2; const p2 = Math.pow(i.l * i.t, 2) / 3; return '1oo1 PFD: ' + p1.toExponential(3) + '\n1oo2 PFD: ' + p2.toExponential(3) + '\nImprovement: ' + (p1 / p2).toFixed(0) + 'x'; } },
+  { id: 'flowconv', name: 'Flow Unit Converter', cat: 'Flow', desc: 'Common flow units', formula: '1 m3/h = 4.403 GPM', inputs: [{ k: 'v', label: 'Value' }, { k: 'f', label: 'From', type: 'select', opts: ['m3/h', 'L/min', 'GPM', 'CFM'] }], calc: i => { const F = { 'm3/h': 1, 'L/min': 0.06, 'GPM': 0.2271, 'CFM': 1.699 }; const m = i.v * F[i.f]; return 'm3/h: ' + m.toFixed(3) + '\nL/min: ' + (m / 0.06).toFixed(3) + '\nGPM: ' + (m / 0.2271).toFixed(3) + '\nCFM: ' + (m / 1.699).toFixed(3); } },
+  { id: 'tempconv', name: 'Temperature Unit Converter', cat: 'Sensors', desc: 'C, F, K', formula: 'F = C x 1.8 + 32', inputs: [{ k: 'v', label: 'Value' }, { k: 'f', label: 'From', type: 'select', opts: ['C', 'F', 'K'] }], calc: i => { const c = i.f === 'C' ? i.v : i.f === 'F' ? (i.v - 32) / 1.8 : i.v - 273.15; return 'C: ' + c.toFixed(2) + '\nF: ' + (c * 1.8 + 32).toFixed(2) + '\nK: ' + (c + 273.15).toFixed(2); } },
+  { id: 'span', name: 'Span & Range Calculator', cat: 'Calibration', desc: 'From LRV/URV', formula: 'Span = URV - LRV', inputs: [{ k: 'l', label: 'LRV' }, { k: 'u', label: 'URV' }], calc: i => 'Span: ' + (i.u - i.l).toFixed(3) },
+  { id: 'pctspan', name: '% of Span Calculator', cat: 'Calibration', desc: 'Value to percent', formula: '% = (V-LRV)/span x 100', inputs: [{ k: 'v', label: 'Value' }, { k: 'l', label: 'LRV' }, { k: 'u', label: 'URV' }], calc: i => ((i.v - i.l) / (i.u - i.l) * 100).toFixed(2) + ' % of span' },
+  { id: 'sqrtex', name: 'Square Root Extractor (DP to Flow)', cat: 'Flow', desc: 'DP% to flow%', formula: 'Flow% = sqrt(DP%)', inputs: [{ k: 'd', label: 'DP % of range' }], calc: i => 'Flow: ' + (Math.sqrt(i.d / 100) * 100).toFixed(2) + ' %\nOutput: ' + (4 + 16 * Math.sqrt(i.d / 100)).toFixed(2) + ' mA' }
+);
+/* ===== PART 5 END ===== */
+</script>
+    <script>
+/* ===== TOOLS 45-66 (ALL 66 COMPLETE) ===== */
+TOOLS.push(
+  { id: 'reynolds', name: 'Reynolds Number Calculator', cat: 'Flow', desc: 'Flow regime', formula: 'Re = rho v D / mu', inputs: [{ k: 'r', label: 'Density', def: 1000 }, { k: 'v', label: 'Velocity (m/s)' }, { k: 'd', label: 'Pipe dia (m)', def: 0.05 }, { k: 'm', label: 'Viscosity (Pa.s)', def: 0.001 }], calc: i => { const re = i.r * i.v * i.d / i.m; return 'Re: ' + re.toFixed(0) + ' => ' + (re < 2300 ? 'Laminar' : re < 4000 ? 'Transition' : 'Turbulent'); } },
+  { id: 'pipevel', name: 'Pipe Flow Velocity Calculator', cat: 'Flow', desc: 'From flow & dia', formula: 'v = Q/A', inputs: [{ k: 'q', label: 'Flow (m3/h)' }, { k: 'd', label: 'Pipe dia (mm)', def: 50 }], calc: i => 'Velocity: ' + (i.q / 3600 / (Math.PI * Math.pow(i.d / 2000, 2))).toFixed(2) + ' m/s' },
+  { id: 'pump', name: 'Pump Power Calculator', cat: 'Electrical', desc: 'Hydraulic power', formula: 'P = rho g Q H / eta', inputs: [{ k: 'q', label: 'Flow (m3/h)' }, { k: 'h', label: 'Head (m)' }, { k: 'e', label: 'Efficiency (%)', def: 70 }, { k: 'r', label: 'Density', def: 1000 }], calc: i => { const kw = i.r * 9.81 * (i.q / 3600) * i.h / (i.e / 100) / 1000; return 'Power: ' + kw.toFixed(2) + ' kW (' + (kw * 1.341).toFixed(2) + ' HP)'; } },
+  { id: 'beta', name: 'Orifice Beta Ratio Calculator', cat: 'Flow', desc: 'd over D', formula: 'beta = d/D', inputs: [{ k: 'd', label: 'Orifice dia d' }, { k: 'D', label: 'Pipe dia D' }], calc: i => { const b = i.d / i.D; return 'Beta: ' + b.toFixed(4) + (b > 0.7 || b < 0.2 ? ' (outside 0.2-0.7!)' : ' (OK)'); } },
+  { id: 'rpm', name: 'Frequency to RPM Converter', cat: 'Electrical', desc: 'Motor sync speed', formula: 'RPM = 120f/P', inputs: [{ k: 'f', label: 'Frequency (Hz)', def: 50 }, { k: 'p', label: 'Poles', def: 4 }], calc: i => 'Speed: ' + (120 * i.f / i.p).toFixed(0) + ' RPM' },
+  { id: 'txratio', name: 'Transformer Turns Ratio', cat: 'Electrical', desc: 'V2 from turns', formula: 'V2 = V1 x N2/N1', inputs: [{ k: 'v1', label: 'Primary V' }, { k: 'n1', label: 'N1' }, { k: 'n2', label: 'N2' }], calc: i => 'Secondary: ' + (i.v1 * i.n2 / i.n1).toFixed(2) + ' V' },
+  { id: 'pf', name: 'Power Factor Calculator', cat: 'Electrical', desc: 'kW and kVA', formula: 'PF = P/S', inputs: [{ k: 'p', label: 'kW' }, { k: 's', label: 'kVA' }], calc: i => 'PF: ' + (i.p / i.s).toFixed(3) },
+  { id: 'kvakw', name: 'kVA to kW Converter', cat: 'Electrical', desc: 'With PF', formula: 'kW = kVA x PF', inputs: [{ k: 's', label: 'kVA' }, { k: 'p', label: 'PF', def: 0.8 }], calc: i => 'kW: ' + (i.s * i.p).toFixed(2) },
+  { id: 'pcterr', name: 'Percentage Error Calculator', cat: 'Calibration', desc: 'Measured vs true', formula: '% = (M-T)/T x 100', inputs: [{ k: 'm', label: 'Measured' }, { k: 't', label: 'True' }], calc: i => 'Error: ' + ((i.m - i.t) / i.t * 100).toFixed(3) + ' %' },
+  { id: 'capsen', name: 'Capacitive Sensor Calculator', cat: 'Sensors', desc: 'Parallel plate', formula: 'C = e0 er A / d', inputs: [{ k: 'er', label: 'Dielectric', def: 1 }, { k: 'a', label: 'Area (cm2)', def: 10 }, { k: 'd', label: 'Gap (mm)', def: 1 }], calc: i => 'Capacitance: ' + (8.854e-12 * i.er * (i.a / 1e4) / (i.d / 1000) * 1e12).toFixed(3) + ' pF' },
+  { id: 'ipref', name: 'IP Rating Reference', cat: 'Reference', desc: 'Ingress protection', formula: 'IP XY', inputs: [{ k: 'c', label: 'IP code (e.g. 65)', def: 65 }], calc: i => { const X = { 0: 'No protection', 1: '>50mm', 2: '>12.5mm', 3: '>2.5mm', 4: '>1mm', 5: 'Dust protected', 6: 'Dust tight' }; const Y = { 0: 'None', 1: 'Dripping', 2: 'Dripping tilted', 3: 'Spraying', 4: 'Splashing', 5: 'Jets', 6: 'Powerful jets', 7: 'Immersion 1m', 8: 'Continuous' }; const s = String(i.c); return 'Solids(' + s[0] + '): ' + (X[s[0]] || '?') + '\nLiquids(' + s[1] + '): ' + (Y[s[1]] || '?'); } },
+  { id: 'zones', name: 'Hazardous Area Zone Reference', cat: 'Reference', desc: 'Gas zones', formula: 'Zone 0/1/2', inputs: [{ k: 'z', label: 'Zone', type: 'select', opts: ['0', '1', '2'] }], calc: i => ({ 0: 'Zone 0: gas continuously present (Ex ia)', 1: 'Zone 1: likely in normal operation (Ex ib/d/e)', 2: 'Zone 2: not likely, short duration (Ex n/ic)' }[i.z]) },
+  { id: 'awg', name: 'Cable Size Current Reference', cat: 'Reference', desc: 'Copper approx', formula: 'PVC insulated', inputs: [{ k: 'a', label: 'Size (mm2)', type: 'select', opts: ['1.5', '2.5', '4', '6', '10', '16', '25'] }], calc: i => ({ '1.5': '16 A', '2.5': '22 A', '4': '29 A', '6': '37 A', '10': '52 A', '16': '70 A', '25': '95 A' }[i.a] + ' approx') },
+  { id: 'dbratio', name: 'dB to Ratio Converter', cat: 'Signals', desc: 'Inverse dB', formula: '10^(dB/20) or /10', inputs: [{ k: 't', label: 'Type', type: 'select', opts: ['Voltage', 'Power'] }, { k: 'd', label: 'dB' }], calc: i => 'Ratio: ' + (i.t === 'Voltage' ? Math.pow(10, i.d / 20) : Math.pow(10, i.d / 10)).toFixed(4) },
+  { id: 'tankvol', name: 'Tank Volume Calculator', cat: 'Flow', desc: 'Vertical cylinder', formula: 'V = pi r2 h', inputs: [{ k: 'r', label: 'Radius (m)' }, { k: 'h', label: 'Height (m)' }], calc: i => { const v = Math.PI * i.r * i.r * i.h; return 'Volume: ' + v.toFixed(2) + ' m3 (' + (v * 1000).toFixed(0) + ' L)'; } },
+  { id: 'sg', name: 'Specific Gravity to Density', cat: 'Reference', desc: 'Water based', formula: 'rho = SG x 1000', inputs: [{ k: 's', label: 'SG', def: 0.85 }], calc: i => 'Density: ' + (i.s * 1000).toFixed(0) + ' kg/m3' },
+  { id: 'ups', name: 'Battery Backup Time Calculator', cat: 'Electrical', desc: 'UPS sizing', formula: 't = V Ah eff / W', inputs: [{ k: 'v', label: 'Battery V', def: 12 }, { k: 'ah', label: 'Ah', def: 100 }, { k: 'e', label: 'Eff %', def: 85 }, { k: 'w', label: 'Load (W)' }], calc: i => 'Backup: ' + (i.v * i.ah * (i.e / 100) / i.w).toFixed(2) + ' hours' },
+  { id: 'levelma', name: 'Level to mA Converter', cat: 'Signals', desc: 'Level transmitter', formula: 'mA = 4 + 16 L/R', inputs: [{ k: 'l', label: 'Level' }, { k: 'r', label: 'Full range' }], calc: i => 'Output: ' + (4 + 16 * i.l / i.r).toFixed(2) + ' mA' },
+  { id: 'dwt', name: 'Dead Weight Tester Calculator', cat: 'Calibration', desc: 'Pressure from weights', formula: 'P = mg/A', inputs: [{ k: 'm', label: 'Mass (kg)' }, { k: 'a', label: 'Piston area (cm2)', def: 1 }], calc: i => 'Pressure: ' + (i.m * 9.81 / (i.a * 1e-4) / 1000).toFixed(2) + ' kPa' },
+  { id: 'mano', name: 'Manometer Height to Pressure', cat: 'Calibration', desc: 'Liquid column', formula: 'P = rho g h', inputs: [{ k: 'r', label: 'Fluid density', def: 13596 }, { k: 'h', label: 'Height (mm)' }], calc: i => 'Pressure: ' + (i.r * 9.81 * (i.h / 1000)).toFixed(1) + ' Pa' },
+  { id: 'gaugeabs', name: 'Gauge to Absolute Pressure', cat: 'Reference', desc: 'Add atmosphere', formula: 'Pabs = Pg + 1.01325', inputs: [{ k: 'g', label: 'Gauge (bar)' }], calc: i => 'Absolute: ' + (i.g + 1.01325).toFixed(4) + ' bar' },
+  { id: 'vacuum', name: 'Vacuum Unit Converter', cat: 'Reference', desc: 'torr/mmHg/mbar/Pa', formula: '1 torr = 133.322 Pa', inputs: [{ k: 'v', label: 'Value' }, { k: 'f', label: 'From', type: 'select', opts: ['torr', 'mmHg', 'mbar', 'Pa'] }], calc: i => { const F = { torr: 133.322, mmHg: 133.322, mbar: 100, Pa: 1 }; const p = i.v * F[i.f]; return 'Pa: ' + p.toFixed(2) + '\ntorr: ' + (p / 133.322).toFixed(3) + '\nmmHg: ' + (p / 133.322).toFixed(3) + '\nmbar: ' + (p / 100).toFixed(3); } }
+);
+/* ===== PART 6 END — ALL 66 TOOLS COMPLETE ===== */
+                                                                                                                                             </script>
+    <script>
+/* ===== MCQ SETS 1-15 ===== */
+MCQS.push(
+  { id: 'gc1', title: 'General Concepts - Set 1', qs: [
+    { q: 'A sensor converts a physical quantity into...', opts: ['Another physical quantity', 'An electrical signal', 'Light only', 'Heat only'], a: 1 },
+    { q: 'The standard analog signal for industrial transmitters is...', opts: ['0-100 mA', '1-5 V only', '4-20 mA', '0-1 V'], a: 2 },
+    { q: 'Span of an instrument equals...', opts: ['URV + LRV', 'URV - LRV', 'URV / LRV', 'LRV only'], a: 1 },
+    { q: 'Calibration is done to...', opts: ['Compare with a reference and adjust', 'Paint the device', 'Increase weight', 'Remove noise only'], a: 0 },
+    { q: 'A live zero (4 mA) helps to...', opts: ['Save power', 'Detect broken wire', 'Increase noise', 'Speed up response'], a: 1 }
+  ]},
+  { id: 'gc2', title: 'General Concepts - Set 2', qs: [
+    { q: 'Accuracy means...', opts: ['Repeatability', 'Closeness to true value', 'Speed', 'Resolution'], a: 1 },
+    { q: 'Precision means...', opts: ['Closeness to true value', 'Repeatability of readings', 'Max range', 'Zero error'], a: 1 },
+    { q: 'Resolution is...', opts: ['Smallest detectable change', 'Max error', 'Full scale', 'Dead band'], a: 0 },
+    { q: 'Hysteresis is...', opts: ['Up vs down reading difference', 'Zero shift', 'Span error', 'Noise'], a: 0 },
+    { q: 'Linearity error measures...', opts: ['Deviation from straight line', 'Temperature effect', 'Humidity effect', 'Power loss'], a: 0 }
+  ]},
+  { id: 'gc3', title: 'General Concepts - Set 3', qs: [
+    { q: 'A transducer converts...', opts: ['One form of energy to another', 'AC to DC only', 'Digital to analog only', 'Light to sound'], a: 0 },
+    { q: 'An example of an active transducer is...', opts: ['RTD', 'Strain gauge', 'Thermocouple', 'Potentiometer'], a: 2 },
+    { q: 'An example of a passive transducer is...', opts: ['Thermocouple', 'RTD', 'Piezoelectric', 'Photovoltaic cell'], a: 1 },
+    { q: 'A signal conditioner is used to...', opts: ['Amplify and filter the signal', 'Store data', 'Display only', 'Generate power'], a: 0 },
+    { q: '4-20 mA is preferred over 0-20 mA because...', opts: ['It is cheaper', 'Live zero detects faults', 'It is faster', 'Less wiring'], a: 1 }
+  ]},
+  { id: 'ac1', title: 'Advanced Concepts - Set 1', qs: [
+    { q: 'A smart transmitter includes...', opts: ['Only analog parts', 'Microprocessor and diagnostics', 'No software', 'Only a display'], a: 1 },
+    { q: 'HART protocol means...', opts: ['Digital communication over 4-20 mA', 'Pure pneumatic signal', 'Wireless only', 'Power line carrier'], a: 0 },
+    { q: 'A fieldbus is...', opts: ['A digital multidrop network', 'A single analog wire', 'A mechanical bus', 'A power cable'], a: 0 },
+    { q: 'An intrinsic safety barrier limits...', opts: ['Voltage and energy to safe levels', 'Temperature only', 'Flow only', 'Pressure only'], a: 0 },
+    { q: 'Device descriptions (EDDL/DTM) are used for...', opts: ['Configuring smart devices', 'Wiring', 'Painting', 'Mounting'], a: 0 }
+  ]},
+  { id: 'ac2', title: 'Advanced Concepts - Set 2', qs: [
+    { q: 'Cold junction compensation is needed for...', opts: ['RTDs', 'Thermocouples', 'Thermistors', 'LVDTs'], a: 1 },
+    { q: 'A 3-wire RTD connection compensates...', opts: ['Lead resistance', 'Humidity', 'Vibration', 'Noise'], a: 0 },
+    { q: 'Square root extraction is used with...', opts: ['Level only', 'DP flow measurement', 'Temperature', 'pH'], a: 1 },
+    { q: 'A thermowell is used to...', opts: ['Protect the sensor and allow replacement', 'Increase error', 'Reduce accuracy', 'Amplify signal'], a: 0 },
+    { q: 'Loop powered means the device is powered by...', opts: ['The signal loop itself', 'A separate generator', 'Battery only', 'Solar only'], a: 0 }
+  ]},
+  { id: 'ac3', title: 'Advanced Concepts - Set 3', qs: [
+    { q: 'Damping in a transmitter is used to...', opts: ['Reduce noise fluctuations', 'Increase noise', 'Add delay always', 'Break the loop'], a: 0 },
+    { q: 'Turndown ratio is...', opts: ['Max measurable / min measurable', 'URV + LRV', 'Span x 2', 'Zero error'], a: 0 },
+    { q: 'Dead band is...', opts: ['Input change with no output change', 'Full scale', 'Max span', 'Calibration point'], a: 0 },
+    { q: 'Time constant describes...', opts: ['Speed of response', 'Color', 'Weight', 'Cost'], a: 0 },
+    { q: 'A 2-wire transmitter carries...', opts: ['Power and signal on same pair', 'Only power', 'Only signal', 'Three wires'], a: 0 }
+  ]},
+  { id: 'ct1', title: 'Circuit Theory - Set 1', qs: [
+    { q: "Ohm's law is...", opts: ['V = IR', 'V = I/R', 'V = R/I', 'V = I+R'], a: 0 },
+    { q: 'Resistors in series...', opts: ['Add', 'Divide', 'Multiply', 'Cancel'], a: 0 },
+    { q: 'Resistors in parallel combine as...', opts: ['Sum', 'Reciprocal sum', 'Product', 'Difference'], a: 1 },
+    { q: "Kirchhoff's voltage law says sum of voltages in a loop is...", opts: ['1', 'Zero', 'Infinity', 'V/R'], a: 1 },
+    { q: "Kirchhoff's current law says currents at a node...", opts: ['Sum to zero', 'Multiply', 'Are equal always', 'Cancel voltage'], a: 0 }
+  ]},
+  { id: 'ct2', title: 'Circuit Theory - Set 2', qs: [
+    { q: 'Electrical power P equals...', opts: ['VI', 'V/I', 'I/V', 'V+I'], a: 0 },
+    { q: 'A capacitor blocks...', opts: ['AC', 'DC', 'Both', 'Neither'], a: 1 },
+    { q: 'An inductor opposes...', opts: ['Change in current', 'Change in voltage only', 'Resistance', 'Capacitance'], a: 0 },
+    { q: 'The time constant of an RC circuit is...', opts: ['R/C', 'C/R', 'RC', '1/RC'], a: 2 },
+    { q: 'RMS of a sine wave is...', opts: ['Vp', '0.707 Vp', '1.414 Vp', '2 Vp'], a: 1 }
+  ]},
+  { id: 'ct3', title: 'Circuit Theory - Set 3', qs: [
+    { q: 'A Wheatstone bridge is used to measure...', opts: ['Resistance precisely', 'Power', 'Frequency', 'Flux'], a: 0 },
+    { q: 'A balanced bridge means...', opts: ['Ratio of arms equal', 'All arms zero', 'One arm open', 'Supply zero'], a: 0 },
+    { q: "Thevenin equivalent is a voltage source with...", opts: ['Series resistance', 'Parallel resistance', 'No resistance', 'A capacitor'], a: 0 },
+    { q: 'Norton equivalent is a current source with...', opts: ['Series resistance', 'Parallel resistance', 'Inductor', 'Diode'], a: 1 },
+    { q: 'Maximum power transfer occurs when load equals...', opts: ['Source resistance', 'Zero', 'Infinity', 'Twice source'], a: 0 }
+  ]},
+  { id: 'dl1', title: 'Digital Logic Circuits - Set 1', qs: [
+    { q: 'An AND gate outputs 1 when...', opts: ['Any input is 1', 'All inputs are 1', 'All inputs are 0', 'Never'], a: 1 },
+    { q: 'An OR gate outputs 1 when...', opts: ['All inputs 0', 'Any input 1', 'No input', 'Only both 0'], a: 1 },
+    { q: 'A NOT gate...', opts: ['Inverts the input', 'Doubles it', 'Adds 1', 'Holds it'], a: 0 },
+    { q: 'A universal gate is...', opts: ['AND', 'OR', 'NAND', 'XOR'], a: 2 },
+    { q: 'XOR outputs 1 when inputs are...', opts: ['Same', 'Different', 'Both 0', 'Both 1'], a: 1 }
+  ]},
+  { id: 'dl2', title: 'Digital Logic Circuits - Set 2', qs: [
+    { q: 'Binary 1010 equals decimal...', opts: ['8', '10', '12', '16'], a: 1 },
+    { q: 'A flip-flop stores...', opts: ['1 bit', '1 byte', '4 bits', '1 kB'], a: 0 },
+    { q: 'A flip-flop differs from a latch by having...', opts: ['A clock input', 'More gates', 'No output', 'Analog input'], a: 0 },
+    { q: 'Counters are built from...', opts: ['Flip-flops', 'Resistors', 'Diodes', 'Transformers'], a: 0 },
+    { q: 'An ADC converts...', opts: ['Digital to analog', 'Analog to digital', 'AC to DC', 'Light to heat'], a: 1 }
+  ]},
+  { id: 'dl3', title: 'Digital Logic Circuits - Set 3', qs: [
+    { q: 'A DAC converts...', opts: ['Analog to digital', 'Digital to analog', 'DC to AC', 'Sound to light'], a: 1 },
+    { q: 'An 8-bit ADC has how many steps?', opts: ['128', '256', '512', '1024'], a: 1 },
+    { q: 'Boolean A + AB simplifies to...', opts: ['A', 'B', 'AB', 'A+B'], a: 0 },
+    { q: "De Morgan's theorem: (AB)' = ...", opts: ["A' + B'", "A' B'", 'AB', 'A+B'], a: 0 },
+    { q: 'A combinational circuit example is a...', opts: ['Counter', 'Multiplexer', 'Register', 'Flip-flop'], a: 1 }
+  ]},
+  { id: 'em1', title: 'Electrical Machines - Set 1', qs: [
+    { q: 'A transformer works on the principle of...', opts: ['Mutual induction', 'Self heating', 'Friction', 'Radiation'], a: 0 },
+    { q: 'The turns ratio determines...', opts: ['Voltage ratio', 'Color', 'Weight', 'Frequency change'], a: 0 },
+    { q: 'A motor converts...', opts: ['Mechanical to electrical', 'Electrical to mechanical', 'Heat to light', 'Light to heat'], a: 1 },
+    { q: 'A generator converts...', opts: ['Mechanical to electrical', 'Electrical to mechanical', 'DC to AC only', 'AC to DC only'], a: 0 },
+    { q: 'Synchronous speed formula is...', opts: ['120f/P', 'f/P', 'P/f', '120P/f'], a: 0 }
+  ]},
+  { id: 'em2', title: 'Electrical Machines - Set 2', qs: [
+    { q: 'Slip of an induction motor is...', opts: ['(Ns-N)/Ns', 'Ns/N', 'N/Ns', 'Ns+N'], a: 0 },
+    { q: 'A starter is used to...', opts: ['Limit inrush current', 'Increase speed', 'Reduce torque', 'Stop vibration'], a: 0 },
+    { q: 'Back EMF in a motor...', opts: ['Opposes the supply', 'Adds to supply', 'Is zero always', 'Heats the motor'], a: 0 },
+    { q: 'Laminated cores reduce...', opts: ['Eddy currents', 'Copper loss', 'Friction', 'Noise only'], a: 0 },
+    { q: 'DC motor speed can be controlled by...', opts: ['Voltage or field', 'Only load', 'Only color', 'Air'], a: 0 }
+  ]},
+  { id: 'em3', title: 'Electrical Machines - Set 3', qs: [
+    { q: 'A stepper motor moves in...', opts: ['Discrete steps', 'Continuous sine', 'Random', 'Circles'], a: 0 },
+    { q: 'A servo motor uses...', opts: ['Open loop', 'Closed loop position control', 'No feedback', 'Manual only'], a: 1 },
+    { q: 'A VFD controls motor speed by varying...', opts: ['Frequency', 'Color', 'Weight', 'Torque only'], a: 0 },
+    { q: 'Bearings are used to...', opts: ['Reduce friction', 'Increase heat', 'Add load', 'Stop current'], a: 0 },
+    { q: 'Insulation class indicates...', opts: ['Temperature limit', 'Voltage only', 'Speed', 'Size'], a: 0 }
+  ]}
+);
+/* ===== PART 7 END ===== */
+    </script>
+    <script>
+/* ===== MCQ SETS 16-30 ===== */
+MCQS.push(
+  { id: 'ed1', title: 'Electronic Devices & Circuits - Set 1', qs: [
+    { q: 'A diode conducts when it is...', opts: ['Reverse biased', 'Forward biased', 'Unbiased', 'Hot'], a: 1 },
+    { q: 'A Zener diode is commonly used for...', opts: ['Rectification', 'Voltage regulation', 'Amplification', 'Storage'], a: 1 },
+    { q: 'A BJT has how many terminals?', opts: ['2', '3', '4', '5'], a: 1 },
+    { q: 'A MOSFET is a ... device.', opts: ['Current controlled', 'Voltage controlled', 'Temperature controlled', 'Light controlled'], a: 1 },
+    { q: 'A rectifier converts...', opts: ['AC to DC', 'DC to AC', 'AC to AC', 'DC to DC'], a: 0 }
+  ]},
+  { id: 'ed2', title: 'Electronic Devices & Circuits - Set 2', qs: [
+    { q: 'Biasing a transistor sets its...', opts: ['Operating point', 'Color', 'Weight', 'Package'], a: 0 },
+    { q: 'A common-emitter stage gives...', opts: ['No gain', 'Phase inversion', 'Unity gain', 'Zero output'], a: 1 },
+    { q: 'In cutoff region the transistor is...', opts: ['Fully on', 'Off', 'Saturated', 'Burnt'], a: 1 },
+    { q: 'A coupling capacitor passes...', opts: ['DC only', 'AC only', 'Both', 'Neither'], a: 1 },
+    { q: 'An amplifier increases the ... of a signal.', opts: ['Frequency', 'Amplitude', 'Wavelength', 'Phase only'], a: 1 }
+  ]},
+  { id: 'ed3', title: 'Electronic Devices & Circuits - Set 3', qs: [
+    { q: 'An LED emits light when...', opts: ['Reverse biased', 'Forward biased', 'Unbiased', 'Cooled'], a: 1 },
+    { q: 'A photodiode is normally operated in...', opts: ['Forward bias', 'Reverse bias', 'No bias', 'Breakdown always'], a: 1 },
+    { q: 'A Schottky diode is known for...', opts: ['Slow switching', 'Fast switching and low drop', 'High drop', 'No switching'], a: 1 },
+    { q: 'Ideal op-amp input impedance is...', opts: ['Zero', 'Infinite', '50 ohm', '1k'], a: 1 },
+    { q: 'A FET controls drain current by...', opts: ['Gate voltage', 'Drain current', 'Source heat', 'Body size'], a: 0 }
+  ]},
+  { id: 'li1', title: 'Linear ICs & Applications - Set 1', qs: [
+    { q: 'Ideal open-loop gain of an op-amp is...', opts: ['Zero', 'Infinite', '1', '10'], a: 1 },
+    { q: 'Inverting amplifier gain is...', opts: ['1+Rf/Rin', '-Rf/Rin', 'Rin/Rf', 'Rf+Rin'], a: 1 },
+    { q: 'Non-inverting amplifier gain is...', opts: ['1+Rf/Rin', '-Rf/Rin', '0', 'Rf/Rin'], a: 0 },
+    { q: 'A voltage follower has gain...', opts: ['0', '1', '100', 'Infinite'], a: 1 },
+    { q: 'Virtual ground means the inverting node sits at...', opts: ['Supply', '0 V', '-V', 'Floating'], a: 1 }
+  ]},
+  { id: 'li2', title: 'Linear ICs & Applications - Set 2', qs: [
+    { q: 'A comparator output is...', opts: ['Analog ramp', 'High or low', 'Sine', 'Zero always'], a: 1 },
+    { q: 'An integrator outputs the ... of input.', opts: ['Derivative', 'Integral', 'Square', 'Log'], a: 1 },
+    { q: 'A differentiator outputs the ... of input.', opts: ['Integral', 'Derivative', 'Sum', 'Average'], a: 1 },
+    { q: 'CMRR measures rejection of...', opts: ['Differential signals', 'Common-mode signals', 'Noise only', 'DC only'], a: 1 },
+    { q: 'A 555 in astable mode produces...', opts: ['Square wave', 'DC', 'Step', 'Spike'], a: 0 }
+  ]},
+  { id: 'li3', title: 'Linear ICs & Applications - Set 3', qs: [
+    { q: 'A 7805 regulator gives...', opts: ['+12 V', '+5 V', '-5 V', '3.3 V'], a: 1 },
+    { q: 'An instrumentation amplifier offers...', opts: ['Low CMRR', 'High CMRR and high input Z', 'Low input Z', 'No gain'], a: 1 },
+    { q: 'A Schmitt trigger is used for...', opts: ['Noise immunity with hysteresis', 'Amplification', 'Filtering only', 'Regulation'], a: 0 },
+    { q: 'An active filter uses...', opts: ['Only L and C', 'Op-amp with RC', 'Only R', 'Transformers'], a: 1 },
+    { q: 'A PLL is used for...', opts: ['Frequency locking', 'Voltage boost', 'Current limit', 'Heat control'], a: 0 }
+  ]},
+  { id: 'mi1', title: 'Measurement & Instrumentation - Set 1', qs: [
+    { q: 'A moving-coil meter reads ... value.', opts: ['RMS', 'Average (DC)', 'Peak', 'Frequency'], a: 1 },
+    { q: 'True-RMS meters are best for...', opts: ['Pure sine only', 'Non-sinusoidal waveforms', 'DC only', 'Zero'], a: 1 },
+    { q: 'An oscilloscope displays...', opts: ['Voltage vs time', 'Current vs pressure', 'Power vs flow', 'Temp vs flow'], a: 0 },
+    { q: 'A megger tests...', opts: ['Insulation resistance', 'Flow', 'Level', 'pH'], a: 0 },
+    { q: 'A clamp meter measures current...', opts: ['By breaking the wire', 'Without breaking the wire', 'By heating', 'By contact only'], a: 1 }
+  ]},
+  { id: 'mi2', title: 'Measurement & Instrumentation - Set 2', qs: [
+    { q: 'Systematic errors are...', opts: ['Random', 'Repeatable and correctable', 'Always zero', 'Unpredictable'], a: 1 },
+    { q: 'Accuracy class 0.5 means error within...', opts: ['±0.5% of full scale', '±5%', '±0.05%', '±50%'], a: 0 },
+    { q: 'Loading error happens when...', opts: ['The instrument disturbs the circuit', 'The circuit is off', 'Wires are short', 'Temperature is high'], a: 0 },
+    { q: 'A standard is used as...', opts: ['A reference for comparison', 'A spare part', 'A display', 'A filter'], a: 0 },
+    { q: 'Repeatability means same result under...', opts: ['Different conditions', 'Same conditions', 'No conditions', 'High heat'], a: 1 }
+  ]},
+  { id: 'mi3', title: 'Measurement & Instrumentation - Set 3', qs: [
+    { q: 'A data logger records data over...', opts: ['Time', 'Distance', 'Weight', 'Color'], a: 0 },
+    { q: 'SCADA stands for supervisory control and...', opts: ['Data acquisition', 'Device alarm', 'Digital access', 'Data analysis'], a: 0 },
+    { q: 'A DCS is a ... control system.', opts: ['Central', 'Distributed', 'Digital only', 'Manual'], a: 1 },
+    { q: 'A PLC is a...', opts: ['Programmable logic controller', 'Power line controller', 'Pressure loop controller', 'Pipe level controller'], a: 0 },
+    { q: 'Alarm hysteresis prevents...', opts: ['Chattering', 'Silence', 'Delay', 'Failure'], a: 0 }
+  ]},
+  { id: 'te1', title: 'Transducer Engineering - Set 1', qs: [
+    { q: 'A strain gauge works on change of...', opts: ['Capacitance', 'Resistance with deformation', 'Inductance', 'Mass'], a: 1 },
+    { q: 'Gauge factor equals...', opts: ['(dR/R)/strain', 'R x strain', 'strain/R', 'R/strain^2'], a: 0 },
+    { q: 'A piezoelectric sensor generates charge under...', opts: ['Heat', 'Pressure/force', 'Light', 'Humidity'], a: 1 },
+    { q: 'A capacitive transducer varies...', opts: ['Capacitance', 'Resistance', 'Inductance', 'Flux'], a: 0 },
+    { q: 'An LVDT is a ... transformer.', opts: ['Linear variable differential', 'Low voltage', 'Large volume', 'Loop'], a: 0 }
+  ]},
+  { id: 'te2', title: 'Transducer Engineering - Set 2', qs: [
+    { q: 'LVDT output is proportional to...', opts: ['Temperature', 'Displacement', 'Pressure', 'Flow'], a: 1 },
+    { q: 'A potentiometric sensor measures...', opts: ['Position', 'pH', 'Flow', 'Humidity'], a: 0 },
+    { q: 'A Hall-effect sensor detects...', opts: ['Magnetic field', 'Light', 'Sound', 'Heat'], a: 0 },
+    { q: 'An optical encoder measures...', opts: ['Position/speed', 'Pressure', 'Level', 'Density'], a: 0 },
+    { q: 'A load cell converts force into...', opts: ['Heat', 'An electrical signal', 'Light', 'Sound'], a: 1 }
+  ]},
+  { id: 'te3', title: 'Transducer Engineering - Set 3', qs: [
+    { q: 'A thermocouple is based on the ... effect.', opts: ['Peltier', 'Seebeck', 'Hall', 'Doppler'], a: 1 },
+    { q: 'An RTD uses change of ... with temperature.', opts: ['Resistance', 'Capacitance', 'Mass', 'Color'], a: 0 },
+    { q: 'An NTC thermistor resistance ... with temperature.', opts: ['Increases', 'Decreases', 'Stays same', 'Doubles'], a: 1 },
+    { q: 'A Bourdon tube measures...', opts: ['Pressure', 'Flow', 'Level', 'pH'], a: 0 },
+    { q: 'Bellows elements are used for...', opts: ['Pressure measurement', 'Level', 'Speed', 'Vibration only'], a: 0 }
+  ]},
+  { id: 'ts1', title: 'Transducers & Sensors - Set 1', qs: [
+    { q: 'A pressure diaphragm converts pressure into...', opts: ['Deflection', 'Heat', 'Light', 'Sound'], a: 0 },
+    { q: 'A vortex flowmeter uses...', opts: ['Vortex shedding frequency', 'Weight', 'Color', 'Level'], a: 0 },
+    { q: 'A magnetic flowmeter needs the fluid to be...', opts: ['Non-conductive', 'Conductive', 'Gas', 'Steam only'], a: 1 },
+    { q: 'A Coriolis meter directly measures...', opts: ['Volume flow', 'Mass flow', 'Velocity', 'Head'], a: 1 },
+    { q: 'An ultrasonic meter uses...', opts: ['Sound waves', 'Radiation', 'Microwaves', 'Lasers'], a: 0 }
+  ]},
+  { id: 'ts2', title: 'Transducers & Sensors - Set 2', qs: [
+    { q: 'DP level measurement uses...', opts: ['Head pressure', 'Radar', 'Capacitance', 'Weight'], a: 0 },
+    { q: 'A radar level meter uses...', opts: ['Microwaves', 'Sound', 'X-rays', 'Heat'], a: 0 },
+    { q: 'A capacitance level probe senses change of...', opts: ['Dielectric', 'Color', 'Weight', 'Flow'], a: 0 },
+    { q: 'A float switch detects...', opts: ['Point level', 'Continuous level', 'Flow', 'Pressure'], a: 0 },
+    { q: 'Tank weighing with load cells gives...', opts: ['Volume', 'Mass', 'Density', 'Head'], a: 1 }
+  ]},
+  { id: 'ts3', title: 'Transducers & Sensors - Set 3', qs: [
+    { q: 'A humidity sensor measures...', opts: ['Moisture', 'Flow', 'Level', 'pH'], a: 0 },
+    { q: 'A pH sensor measures...', opts: ['Acidity/alkalinity', 'Turbidity', 'Conductivity', 'Oxygen'], a: 0 },
+    { q: 'A conductivity sensor measures...', opts: ['Ions in solution', 'Color', 'Level', 'Pressure'], a: 0 },
+    { q: 'Dissolved oxygen sensors are used in...', opts: ['Water treatment', 'Power cables', 'Gearboxes', 'Tanks of oil'], a: 0 },
+    { q: 'A typical CO gas detector uses...', opts: ['Electrochemical cell', 'Bourdon tube', 'LVDT', 'Orifice'], a: 0 }
+  ]}
+);
+
+/* ===== FORMULAS ===== */
+FORMULAS.push(
+  { n: "Ohm's Law", f: 'V = I x R' }, { n: 'Power', f: 'P = V x I = I^2 R' },
+  { n: 'RTD PT100', f: 'R ~ 100 + 0.385 x T (C)' }, { n: 'Thermocouple K', f: '~41 uV per C' },
+  { n: 'Wheatstone', f: 'Rx = R2 x R3 / R1' }, { n: 'Gauge Factor', f: 'GF = (dR/R)/strain' },
+  { n: 'Quarter Bridge', f: 'Vout = Vex x GF x e / 4' }, { n: '4-20mA %', f: '% = (I-4)/16 x 100' },
+  { n: 'Span', f: 'Span = URV - LRV' }, { n: 'SQRT Extract', f: 'Flow% = sqrt(DP%)' },
+  { n: 'Orifice Flow', f: 'Q = Cd A sqrt(2DP/rho)' }, { n: 'Valve Cv', f: 'Cv = Q sqrt(SG/DP)' },
+  { n: 'PID (ZN)', f: 'Kp=0.6Ku, Ti=Pu/2, Td=Pu/8' }, { n: 'Reynolds', f: 'Re = rho v D / mu' },
+  { n: 'Pump Power', f: 'P = rho g Q H / eta' }, { n: 'RMS Sine', f: 'Vrms = 0.707 Vp' },
+  { n: 'dB Power', f: '10 log10(P2/P1)' }, { n: 'SNR', f: '10 log10(S/N)' },
+  { n: 'MTBF', f: 'MTBF = hours / failures' }, { n: 'PFDavg 1oo1', f: 'lambda x TI / 2' },
+  { n: 'Tank Volume', f: 'V = pi r^2 h' }, { n: 'Head', f: 'h = P / (rho g)' }
+);
+
+/* ===== DICTIONARY ===== */
+DICT.push(
+  { t: 'Accuracy', m: 'Closeness of a reading to the true value.' },
+  { t: 'Precision', m: 'Repeatability of readings under same conditions.' },
+  { t: 'Resolution', m: 'Smallest change an instrument can detect.' },
+  { t: 'Span', m: 'Algebraic difference between URV and LRV.' },
+  { t: 'Range', m: 'Limits (LRV to URV) within which a device measures.' },
+  { t: 'Hysteresis', m: 'Difference between up-scale and down-scale readings.' },
+  { t: 'Linearity', m: 'How closely output follows a straight line.' },
+  { t: 'Dead band', m: 'Input change that produces no output change.' },
+  { t: 'Turndown', m: 'Ratio of max to min measurable value.' },
+  { t: 'Sensor', m: 'Element that responds to a physical quantity.' },
+  { t: 'Transducer', m: 'Device converting one energy form to another.' },
+  { t: 'Transmitter', m: 'Device converting sensor output to standard signal.' },
+  { t: 'Calibration', m: 'Comparison with a reference and adjustment.' },
+  { t: 'Drift', m: 'Slow change of output over time.' },
+  { t: 'LRV / URV', m: 'Lower / upper range values.' },
+  { t: 'Damping', m: 'Filtering to smooth output fluctuations.' },
+  { t: 'Intrinsically safe', m: 'Energy limited so no ignition in hazardous area.' },
+  { t: 'HART', m: 'Digital protocol superimposed on 4-20 mA.' },
+  { t: 'Fieldbus', m: 'Digital multidrop field network.' },
+  { t: 'SCADA', m: 'Supervisory control and data acquisition.' }
+);
+
+/* ===== Q&A ===== */
+QA.push(
+  { q: 'Why 4-20 mA instead of 0-20 mA?', a: 'Live zero detects wire breaks and powers loop devices.' },
+  { q: 'RTD vs thermocouple?', a: 'RTD: stable, accurate, limited range. TC: wide range, rugged, needs CJC.' },
+  { q: '2-wire vs 3-wire RTD?', a: '3-wire compensates lead resistance for better accuracy.' },
+  { q: 'What is square root extraction?', a: 'Flow from DP is non-linear; take sqrt of DP% to get flow%.' },
+  { q: 'What does a HART communicator do?', a: 'Configures and reads smart transmitters digitally.' },
+  { q: 'Why use a thermowell?', a: 'Protects sensor from process and allows replacement without shutdown.' },
+  { q: 'What is intrinsic safety?', a: 'Limiting energy so circuits cannot ignite hazardous atmospheres.' },
+  { q: 'How often to calibrate?', a: 'Based on criticality, drift history and standards (e.g. 6-12 months).' }
+);
+
+/* ===== HOW-TO ===== */
+HOW.push(
+  { t: 'Calibrate a DP transmitter', s: 'Isolate, zero check, apply 0/25/50/75/100% pressures, record mA, adjust if out of tolerance.' },
+  { t: 'Check a 4-20 mA loop', s: 'Measure loop current in series; 4 mA at 0%, 20 mA at 100%; check for 0 mA (broken) or 3.6/21 mA (fault).' },
+  { t: 'Use HART communicator', s: 'Connect across terminals with 250 ohm in loop; open device menu; trim or rerange as needed.' },
+  { t: 'Insulation test with megger', s: 'Isolate device, connect leads, apply test voltage, read Mohm; discharge after test.' },
+  { t: 'Pick a flowmeter', s: 'Consider fluid (conductive?), cleanliness, required accuracy, pressure loss and cost.' },
+  { t: 'Use this app offline', s: 'All tools and MCQs are inside one file; once opened on phone they work without internet.' }
+);
+
+/* ===== UPDATES ===== */
+UPDATES.push(
+  { v: 'v1.0', s: 'First release: 66 tools, 30 MCQ sets, notes, formulas, dictionary, Q&A, how-to, dark mode, offline.' }
+);
+
+/* ===== PDF button for formulas ===== */
+(function () {
+  const p = $('more-formulas').parentElement;
+  const b = document.createElement('button');
+  b.className = 'btn secondary'; b.textContent = '📑 Save Formulas PDF';
+  b.onclick = () => {
+    const doc = new window.jspdf.jsPDF();
+    doc.setFontSize(14); doc.text('Instrumentation Master - Formulas', 14, 16);
+    doc.setFontSize(9); let y = 26;
+    FORMULAS.forEach(f => { if (y > 280) { doc.addPage(); y = 16; } doc.text(f.n + ':  ' + f.f, 14, y); y += 7; });
+    doc.save('Formulas.pdf'); toast('PDF downloaded');
+  };
+  p.appendChild(b);
+})();
+
+/* ===== START THE APP ===== */
+bootApp();
+})();
+</script>
 </body>
-                </html>
-                // Tab Switching System
-function switchTab(tabId) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active-tab');
-        btn.classList.add('inactive-tab');
-    });
-
-    const selectedTab = document.getElementById(`tab-${tabId}`);
-    if (selectedTab) selectedTab.classList.remove('hidden');
-
-    const selectedBtn = document.getElementById(`tab-btn-${tabId}`);
-    if (selectedBtn) {
-        selectedBtn.classList.add('active-tab');
-        selectedBtn.classList.remove('inactive-tab');
-    }
-}
-
-// Live Search for 66+ Tools
-const globalSearch = document.getElementById('globalSearch');
-if (globalSearch) {
-    globalSearch.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase().trim();
-        document.querySelectorAll('.tool-card').forEach(card => {
-            const text = card.textContent.toLowerCase();
-            card.style.display = text.includes(query) ? 'block' : 'none';
-        });
-    });
-}
-
-// 4-20 mA Signal Converter
-function calculate4to20mA() {
-    const val = parseFloat(document.getElementById('maInput').value);
-    const unit = document.getElementById('maUnit').value;
-    const res = document.getElementById('maResult');
-
-    if (isNaN(val)) {
-        res.classList.remove('hidden');
-        res.textContent = "براہِ کرم صحیح نمبر درج کریں!";
-        return;
-    }
-
-    if (unit === 'ma') {
-        const pct = ((val - 4) / 16) * 100;
-        res.textContent = `${val.toFixed(2)} mA = ${pct.toFixed(2)}% Process Value`;
-    } else {
-        const ma = 4 + ((val / 100) * 16);
-        res.textContent = `${val.toFixed(2)}% Process Value = ${ma.toFixed(2)} mA Signal`;
-    }
-    res.classList.remove('hidden');
-}
-
-// Ohm's Law Calculator
-function calculateOhmsLaw() {
-    let v = parseFloat(document.getElementById('ohmV').value);
-    let i = parseFloat(document.getElementById('ohmI').value);
-    let r = parseFloat(document.getElementById('ohmR').value);
-    const res = document.getElementById('ohmsResult');
-
-    if (!isNaN(v) && !isNaN(i) && isNaN(r)) {
-        res.textContent = `Calculated Resistance (R): ${(v / i).toFixed(2)} Ω`;
-    } else if (!isNaN(v) && isNaN(i) && !isNaN(r)) {
-        res.textContent = `Calculated Current (I): ${(v / r).toFixed(2)} A`;
-    } else if (isNaN(v) && !isNaN(i) && !isNaN(r)) {
-        res.textContent = `Calculated Voltage (V): ${(i * r).toFixed(2)} V`;
-    } else {
-        res.textContent = "حساب کے لیے کوئی سی دو قیمتیں درج کریں!";
-    }
-    res.classList.remove('hidden');
-}
-
-// RTD Pt100 Calculator
-function calculateRTD() {
-    const resVal = parseFloat(document.getElementById('rtdRes').value);
-    const res = document.getElementById('rtdResult');
-
-    if (isNaN(resVal)) {
-        res.classList.remove('hidden');
-        res.textContent = "براہِ کرم Resistance کی قیمت درج کریں!";
-        return;
-    }
-
-    const temp = (resVal - 100) / (100 * 0.00385);
-    res.textContent = `Calculated Temp: ${temp.toFixed(2)} °C`;
-    res.classList.remove('hidden');
-}
-
-// MCQ Checker Logic
-function checkMcq(btn, isCorrect) {
-    const container = btn.closest('.space-y-3');
-    const feedback = container.querySelector('.mcq-feedback');
-    container.querySelectorAll('button').forEach(b => b.disabled = true);
-
-    feedback.classList.remove('hidden');
-    if (isCorrect) {
-        btn.classList.add('mcq-correct');
-        feedback.innerHTML = '<span class="text-emerald-400"><i class="fa-solid fa-circle-check"></i> درست جواب!</span>';
-    } else {
-        btn.classList.add('mcq-wrong');
-        feedback.innerHTML = '<span class="text-rose-400"><i class="fa-solid fa-circle-xmark"></i> غلط جواب!</span>';
-    }
-}
-
-// Personal Notes Logic
-function saveNote() {
-    const txt = document.getElementById('noteInput').value.trim();
-    if (!txt) return alert("براہِ کرم پہلے کچھ نوٹس لکھیں!");
-    localStorage.setItem('instru_hub_note', txt);
-    loadNote();
-}
-
-function loadNote() {
-    const saved = localStorage.getItem('instru_hub_note');
-    if (saved && document.getElementById('noteInput')) {
-        document.getElementById('noteInput').value = saved;
-        document.getElementById('notesList').innerHTML = '<div class="text-emerald-400 text-xs font-semibold"><i class="fa-solid fa-check"></i> محفوظ ہو گیا!</div>';
-    }
-}
-
-document.addEventListener('DOMContentLoaded', loadNote);
-.active-tab {
-    background-color: #0284c7 !important;
-    color: #ffffff !important;
-}
-
-.inactive-tab {
-    background-color: #1e293b;
-    color: #94a3b8;
-}
-
-.inactive-tab:hover {
-    background-color: #334155;
-    color: #f1f5f9;
-}
-
-.mcq-correct {
-    background-color: rgba(16, 185, 129, 0.2) !important;
-    border-color: #10b981 !important;
-    color: #34d399 !important;
-}
-
-.mcq-wrong {
-    background-color: rgba(244, 63, 94, 0.2) !important;
-    border-color: #f43f5e !important;
-    color: #fb7185 !important;
-}
-
-.tool-card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.tool-card:hover {
-    transform: translateY(-2px);
-}
+</html>
+<!-- ===== PART 8 END — APP COMPLETE ===== -->
+                                                                                                                                                                                                                                                                                                                                                                              </script>
