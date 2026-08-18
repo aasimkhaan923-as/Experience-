@@ -62,7 +62,8 @@ html[data-theme=dark] .chip.active{color:#101636}
   </style>
 </head>
 <body>
-<!-- ===== PART 1 END ===== --><div id="screen-app" class="screen active">
+<!-- ===== PART 1 END ===== -->
+  <div id="screen-app" class="screen active">
   <header class="topbar">
     <div class="app-title">🛠 Instrumentation Master</div>
     <button class="icon-btn" id="btn-theme">🌓</button>
@@ -153,7 +154,11 @@ html[data-theme=dark] .chip.active{color:#101636}
 </div>
 
 <div id="toast" class="toast hidden"></div>
-<!-- ===== PART 2 END ===== --><script>
+<!-- ===== PART 2 END ===== -->
+  <script>
+/* ===== GLOBAL DATA LISTS (حصے 4-8 انہیں بھرتے ہیں) ===== */
+var TOOLS = [], MCQS = [], FORMULAS = [], DICT = [], QA = [], HOW = [], UPDATES = [];
+
 (function () {
   "use strict";
   const $ = id => document.getElementById(id);
@@ -169,8 +174,6 @@ html[data-theme=dark] .chip.active{color:#101636}
   }
   $('btn-theme').onclick = () => { const c = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; ls.set('im_theme', c); applyTheme(); };
 
-  /* data holders (filled in later parts) */
-  const TOOLS = [], MCQS = [], FORMULAS = [], DICT = [], QA = [], HOW = [], UPDATES = [];
   const SUBJECTS = [
     { n: 'General Concepts', i: '📘' }, { n: 'Advanced Concepts', i: '📗' },
     { n: 'Circuit Theory', i: '📕' }, { n: 'Digital Logic Circuits', i: '📙' },
@@ -369,12 +372,13 @@ html[data-theme=dark] .chip.active{color:#101636}
   }
   $('dict-search').oninput = renderDict;
 
-  /* boot — called from the last part after all data is in */
+  /* boot */
   window.bootApp = function () { applyTheme(); renderHome(); renderToolCats(); renderTools(); renderMcqList(); renderNotes(); renderMore(); };
   applyTheme();
 })();
 </script>
-<!-- ===== PART 3 END ===== --><script>
+<!-- ===== PART 3 (FIXED) END ===== -->
+  <script>
 /* ===== TOOLS 1-22 ===== */
 TOOLS.push(
   { id: 'unitconv', name: 'Instrumentation Unit Converter', cat: 'Signals', desc: 'Pressure unit conversion', formula: '1 bar = 14.5038 psi = 100 kPa', inputs: [{ k: 'v', label: 'Value' }, { k: 'from', label: 'From unit', type: 'select', opts: ['psi', 'bar', 'kPa', 'kg/cm2', 'mH2O', 'atm'] }], calc: i => { const F = { psi: 1, bar: 14.5038, kPa: 0.145038, 'kg/cm2': 14.2233, mH2O: 1.4223, atm: 14.6959 }; const p = i.v * F[i.from]; return 'psi: ' + p.toFixed(4) + '\nbar: ' + (p / 14.5038).toFixed(4) + '\nkPa: ' + (p / 0.145038).toFixed(3) + '\nkg/cm2: ' + (p / 14.2233).toFixed(4) + '\nmH2O: ' + (p / 1.4223).toFixed(4) + '\natm: ' + (p / 14.6959).toFixed(4); } },
@@ -400,7 +404,9 @@ TOOLS.push(
   { id: 'loop', name: 'Loop Resistance Check Tool', cat: 'Electrical', desc: '4-20 mA loop limit', formula: 'Rmax = (Vs - Vmin) / 0.02', inputs: [{ k: 's', label: 'Supply voltage (V)', def: 24 }, { k: 'm', label: 'Transmitter min voltage (V)', def: 12 }, { k: 'r', label: 'Actual loop resistance (ohm)' }], calc: i => { const mx = (i.s - i.m) / 0.02; return 'Max allowed: ' + mx.toFixed(0) + ' ohm\nYour loop: ' + i.r + ' ohm => ' + (i.r <= mx ? 'PASS' : 'FAIL'); } },
   { id: 'is', name: 'Intrinsic Safety Energy Calculator', cat: 'Electrical', desc: 'Worst case output power', formula: 'Po = Uo x Io / 4', inputs: [{ k: 'u', label: 'Uo (V)' }, { k: 'i', label: 'Io (mA)' }], calc: i => 'Po: ' + (i.u * i.i / 4).toFixed(1) + ' mW (compare with device Pi)' }
 );
-/* ===== PART 4 END ===== */<script>
+/* ===== PART 4 END ===== */
+    </script>
+    <script>
 /* ===== TOOLS 23-44 ===== */
 TOOLS.push(
   { id: 'pid', name: 'PID Tuning Calculator', cat: 'Control', desc: 'Ziegler-Nichols', formula: 'Kp=0.6Ku, Ti=Pu/2, Td=Pu/8', inputs: [{ k: 'ku', label: 'Ultimate gain Ku' }, { k: 'pu', label: 'Ultimate period Pu (s)' }], calc: i => 'Kp: ' + (0.6 * i.ku).toFixed(3) + '\nTi: ' + (i.pu / 2).toFixed(2) + ' s\nTd: ' + (i.pu / 8).toFixed(2) + ' s' },
@@ -427,7 +433,7 @@ TOOLS.push(
   { id: 'sqrtex', name: 'Square Root Extractor (DP to Flow)', cat: 'Flow', desc: 'DP% to flow%', formula: 'Flow% = sqrt(DP%)', inputs: [{ k: 'd', label: 'DP % of range' }], calc: i => 'Flow: ' + (Math.sqrt(i.d / 100) * 100).toFixed(2) + ' %\nOutput: ' + (4 + 16 * Math.sqrt(i.d / 100)).toFixed(2) + ' mA' }
 );
 /* ===== PART 5 END ===== */
-</script>
+    </script>
     <script>
 /* ===== TOOLS 45-66 (ALL 66 COMPLETE) ===== */
 TOOLS.push(
@@ -455,7 +461,7 @@ TOOLS.push(
   { id: 'vacuum', name: 'Vacuum Unit Converter', cat: 'Reference', desc: 'torr/mmHg/mbar/Pa', formula: '1 torr = 133.322 Pa', inputs: [{ k: 'v', label: 'Value' }, { k: 'f', label: 'From', type: 'select', opts: ['torr', 'mmHg', 'mbar', 'Pa'] }], calc: i => { const F = { torr: 133.322, mmHg: 133.322, mbar: 100, Pa: 1 }; const p = i.v * F[i.f]; return 'Pa: ' + p.toFixed(2) + '\ntorr: ' + (p / 133.322).toFixed(3) + '\nmmHg: ' + (p / 133.322).toFixed(3) + '\nmbar: ' + (p / 100).toFixed(3); } }
 );
 /* ===== PART 6 END — ALL 66 TOOLS COMPLETE ===== */
-                                                                                                                                             </script>
+    </script>
     <script>
 /* ===== MCQ SETS 1-15 ===== */
 MCQS.push(
@@ -566,8 +572,8 @@ MCQS.push(
   ]}
 );
 /* ===== PART 7 END ===== */
-    </script>
-    <script>
+  </script>
+  <script>
 /* ===== MCQ SETS 16-30 ===== */
 MCQS.push(
   { id: 'ed1', title: 'Electronic Devices & Circuits - Set 1', qs: [
@@ -765,4 +771,3 @@ bootApp();
 </body>
 </html>
 <!-- ===== PART 8 END — APP COMPLETE ===== -->
-                                                                                                                                                                                                                                                                                                                                                                              </script>
