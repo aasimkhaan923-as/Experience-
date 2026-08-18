@@ -321,4 +321,455 @@
                     </div>
                 </div>
     </section>
-    
+                <!-- Formulas & Dictionary Section -->
+            <section id="section-formulas" class="space-y-6 pt-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Formulas Quick Sheet -->
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 space-y-4">
+                        <h3 class="font-bold text-base flex items-center gap-2">
+                            <i class="fa-solid fa-square-root-variable text-purple-500"></i>
+                            Key Formulas Reference
+                        </h3>
+                        <div class="space-y-3 text-xs">
+                            <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-brand-500">Process Signal (4–20 mA conversion):</span>
+                                <p class="mt-1 font-mono">Current (mA) = 4 + [(PV - LRV) / (URV - LRV)] * 16</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-brand-500">Wheatstone Bridge (Balanced Rx):</span>
+                                <p class="mt-1 font-mono">Rx = (R2 * R3) / R1</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-brand-500">Ohm's Law Relationship:</span>
+                                <p class="mt-1 font-mono">V = I * R  |  P = V * I</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dictionary & Terms Section -->
+                    <div id="section-dictionary" class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 space-y-4">
+                        <h3 class="font-bold text-base flex items-center gap-2">
+                            <i class="fa-solid fa-spell-check text-indigo-500"></i>
+                            Instrumentation Dictionary
+                        </h3>
+                        <div class="space-y-3 text-xs">
+                            <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-indigo-500">Span:</span>
+                                <p class="mt-1">The algebraic difference between the upper range value (URV) and lower range value (LRV).</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-indigo-500">Hysteresis:</span>
+                                <p class="mt-1">The maximum difference in output value for a given input when approached from increasing vs decreasing direction.</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700">
+                                <span class="font-bold text-indigo-500">Transducer:</span>
+                                <p class="mt-1">A device that converts energy from one physical form to an electrical signal.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Personal Notes Section (LocalStorage Enabled) -->
+            <section id="section-notes" class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 space-y-4">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-note-sticky text-rose-500"></i>
+                        Personal Notes Feature
+                    </h2>
+                    <button onclick="saveNote()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-1.5 rounded-lg text-xs font-semibold transition">
+                        <i class="fa-solid fa-floppy-disk mr-1"></i> Save Note
+                    </button>
+                </div>
+                <p class="text-xs text-slate-500">Write and save your field notes or study points here. They stay saved in your browser even offline.</p>
+                <textarea id="noteInput" rows="4" placeholder="Write your notes here..." class="w-full p-3 text-xs bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:border-rose-500 transition"></textarea>
+                <div id="notesList" class="space-y-2"></div>
+            </section>
+
+            <!-- How-To & Q&A Reference -->
+            <section class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 space-y-4">
+                <h2 class="text-lg font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-circle-question text-sky-500"></i>
+                    How-To & Guides Section
+                </h2>
+                <div class="space-y-3 text-xs">
+                    <details class="p-3 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700 cursor-pointer">
+                        <summary class="font-semibold text-slate-700 dark:text-slate-300">How to calibrate a 4–20 mA pressure transmitter?</summary>
+                        <p class="mt-2 text-slate-500 leading-relaxed">Connect precision pressure source to input, multimeter in series to loop. Set 0% LRV pressure and adjust Zero screw to read 4.00 mA. Apply 100% URV pressure and adjust Span screw for 20.00 mA. Repeat 2-3 times.</p>
+                    </details>
+                    <details class="p-3 bg-slate-50 dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700 cursor-pointer">
+                        <summary class="font-semibold text-slate-700 dark:text-slate-300">How to use this web portal offline?</summary>
+                        <p class="mt-2 text-slate-500 leading-relaxed">Once this page is loaded via GitHub Pages, all calculations and saved notes run entirely inside your device browser without requiring active internet.</p>
+                    </details>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- JavaScript File Linking -->
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.4);
+    border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.7);
+}
+
+/* Base Styles & Smooth Transitions */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    -webkit-tap-highlight-color: transparent;
+    user-select: text;
+}
+
+/* Sidebar Active State Styling */
+.active-nav {
+    background-color: rgba(2, 132, 199, 0.1) !important;
+    color: #0284c7 !important;
+    font-weight: 600 !important;
+}
+
+.dark .active-nav {
+    background-color: rgba(3, 105, 161, 0.25) !important;
+    color: #38bdf8 !important;
+}
+
+/* Tool Filter Tabs Active State */
+.active-tab {
+    background-color: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+/* Card Hover Animations */
+.tool-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(2, 132, 199, 0.4);
+}
+
+/* Custom Accordion Styling for How-To Section */
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+details summary {
+    list-style: none;
+    position: relative;
+    padding-left: 1.25rem;
+}
+
+details summary::before {
+    content: "►";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.65rem;
+    color: #0284c7;
+    transition: transform 0.2s ease;
+}
+
+details[open] summary::before {
+    transform: translateY(-50%) rotate(90deg);
+}
+
+/* Print & PDF Export Styling */
+@media print {
+    /* Hide navigation elements on print/pdf export */
+    header, 
+    aside, 
+    button, 
+    .tool-tab,
+    #noteInput {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    main {
+        padding: 0 !important;
+        overflow: visible !important;
+    }
+
+    .tool-card, 
+    section {
+        break-inside: avoid;
+        border: 1px solid #cccccc !important;
+        box-shadow: none !important;
+    }
+}
+
+
+// ==========================================
+// 1. Theme Toggle & Persistent State
+// ==========================================
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+const htmlElement = document.documentElement;
+
+// Check local storage or system preference
+if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    htmlElement.classList.add('dark');
+} else {
+    htmlElement.classList.remove('dark');
+}
+
+themeToggleBtn.addEventListener('click', () => {
+    if (htmlElement.classList.contains('dark')) {
+        htmlElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+    } else {
+        htmlElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+    }
+});
+
+// ==========================================
+// 2. Mobile Menu Toggle & Navigation Active State
+// ==========================================
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const sidebar = document.getElementById('sidebar');
+
+if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('-translate-x-full');
+    });
+}
+
+// Set active navigation highlight
+const navItems = document.querySelectorAll('.nav-item');
+navItems.forEach(item => {
+    item.addEventListener('click', () => {
+        navItems.forEach(nav => nav.classList.remove('active-nav'));
+        item.classList.add('active-nav');
+        if (window.innerWidth < 768) {
+            sidebar.classList.add('-translate-x-full');
+        }
+    });
+});
+
+// ==========================================
+// 3. Global Live Search Functionality
+// ==========================================
+const globalSearch = document.getElementById('globalSearch');
+if (globalSearch) {
+    globalSearch.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        
+        // Search in Tool Cards
+        const toolCards = document.querySelectorAll('.tool-card');
+        toolCards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            card.style.display = text.includes(query) ? 'block' : 'none';
+        });
+
+        // Search in Quick Tools List
+        const quickPills = document.querySelectorAll('#quickToolsList span');
+        quickPills.forEach(pill => {
+            const text = pill.textContent.toLowerCase();
+            pill.style.display = text.includes(query) ? 'flex' : 'none';
+        });
+    });
+}
+
+// ==========================================
+// 4. Interactive Engineering Calculators (Part A)
+// ==========================================
+
+// Tool 1: 4–20 mA Signal Converter Logic
+function calculate4to20mA() {
+    const inputVal = parseFloat(document.getElementById('maInput').value);
+    const unit = document.getElementById('maUnit').value;
+    const resultDiv = document.getElementById('maResult');
+
+    if (isNaN(inputVal)) {
+        resultDiv.classList.remove('hidden');
+        resultDiv.textContent = "Please enter a valid number!";
+        return;
+    }
+
+    let outputText = "";
+    if (unit === 'ma') {
+        if (inputVal < 4 || inputVal > 20) {
+            outputText = "Warning: Out of 4–20 mA range! ";
+        }
+        const percentage = ((inputVal - 4) / 16) * 100;
+        outputText += `Signal: ${inputVal.toFixed(2)} mA = ${percentage.toFixed(2)}% Process Value`;
+    } else {
+        const maSignal = 4 + ((inputVal / 100) * 16);
+        outputText = `Process Value: ${inputVal.toFixed(2)}% = ${maSignal.toFixed(2)} mA Signal`;
+    }
+
+    resultDiv.textContent = outputText;
+    resultDiv.classList.remove('hidden');
+}
+
+// Tool 2: Ohm's Law Calculator Logic (V = I * R)
+function calculateOhmsLaw() {
+    let v = parseFloat(document.getElementById('ohmV').value);
+    let i = parseFloat(document.getElementById('ohmI').value);
+    let r = parseFloat(document.getElementById('ohmR').value);
+    const resultDiv = document.getElementById('ohmsResult');
+
+    if (!isNaN(v) && !isNaN(i) && isNaN(r)) {
+        r = v / i;
+        resultDiv.textContent = `Calculated Resistance (R): ${r.toFixed(2)} Ω`;
+    } else if (!isNaN(v) && isNaN(i) && !isNaN(r)) {
+        i = v / r;
+        resultDiv.textContent = `Calculated Current (I): ${i.toFixed(2)} A`;
+    } else if (isNaN(v) && !isNaN(i) && !isNaN(r)) {
+        v = i * r;
+        resultDiv.textContent = `Calculated Voltage (V): ${v.toFixed(2)} V`;
+    } else {
+        resultDiv.textContent = "Please provide any 2 values to calculate the 3rd!";
+    }
+
+    resultDiv.classList.remove('hidden');
+}
+
+// Tool 3: Wheatstone Bridge Resistance Calculator (Rx = (R2 * R3) / R1)
+function calculateWheatstone() {
+    const r1 = parseFloat(document.getElementById('wbR1').value);
+    const r2 = parseFloat(document.getElementById('wbR2').value);
+    const r3 = parseFloat(document.getElementById('wbR3').value);
+    const resultDiv = document.getElementById('wbResult');
+
+    if (isNaN(r1) || isNaN(r2) || isNaN(r3) || r1 === 0) {
+        resultDiv.textContent = "Please enter valid values for R1, R2, and R3 (R1 > 0).";
+    } else {
+        const rx = (r2 * r3) / r1;
+        resultDiv.textContent = `Balanced Rx Resistance = ${rx.toFixed(2)} Ω`;
+    }
+
+    resultDiv.classList.remove('hidden');
+}
+            // ==========================================
+// 5. MCQ Interactive Checking Logic
+// ==========================================
+function checkMcq(buttonElement, isCorrect) {
+    const parentContainer = buttonElement.closest('.space-y-3');
+    const feedbackDiv = parentContainer.querySelector('.mcq-feedback');
+    const allButtons = parentContainer.querySelectorAll('button');
+
+    // Disable all options once an answer is clicked
+    allButtons.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.remove('hover:bg-slate-100', 'dark:hover:bg-slate-700');
+    });
+
+    feedbackDiv.classList.remove('hidden');
+
+    if (isCorrect) {
+        buttonElement.classList.add('bg-emerald-500/20', 'border-emerald-500', 'text-emerald-600', 'dark:text-emerald-400');
+        feedbackDiv.innerHTML = '<span class="text-emerald-500"><i class="fa-solid fa-circle-check"></i> Correct Answer! Great job.</span>';
+    } else {
+        buttonElement.classList.add('bg-rose-500/20', 'border-rose-500', 'text-rose-600', 'dark:text-rose-400');
+        feedbackDiv.innerHTML = '<span class="text-rose-500"><i class="fa-solid fa-circle-xmark"></i> Incorrect! The correct answer was Strain Gauge.</span>';
+    }
+}
+
+// ==========================================
+// 6. LocalStorage Personal Notes System
+// ==========================================
+const noteInput = document.getElementById('noteInput');
+const notesList = document.getElementById('notesList');
+
+// Render saved notes on load
+function loadNotes() {
+    if (!notesList) return;
+    const savedNote = localStorage.getItem('instru_hub_note');
+    if (savedNote) {
+        noteInput.value = savedNote;
+        notesList.innerHTML = `
+            <div class="p-3 bg-slate-100 dark:bg-slate-700/50 rounded-lg text-xs flex justify-between items-center">
+                <span><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Note synced & saved locally.</span>
+                <button onclick="clearNote()" class="text-rose-500 hover:underline">Clear Note</button>
+            </div>
+        `;
+    } else {
+        notesList.innerHTML = '';
+    }
+}
+
+function saveNote() {
+    const text = noteInput.value.trim();
+    if (text === '') {
+        alert("Please write something in the note box first!");
+        return;
+    }
+    localStorage.setItem('instru_hub_note', text);
+    loadNotes();
+    alert("Note saved successfully!");
+}
+
+function clearNote() {
+    localStorage.removeItem('instru_hub_note');
+    noteInput.value = '';
+    loadNotes();
+}
+
+// Initial load for notes
+loadNotes();
+
+// ==========================================
+// 7. Category Filter Logic for Tools
+// ==========================================
+const toolTabs = document.querySelectorAll('.tool-tab');
+toolTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        toolTabs.forEach(t => t.classList.remove('active-tab', 'bg-brand-500', 'text-white'));
+        tab.classList.add('active-tab', 'bg-brand-500', 'text-white');
+
+        const filter = tab.getAttribute('data-filter');
+        const toolCards = document.querySelectorAll('.tool-card');
+
+        toolCards.forEach(card => {
+            if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
+
+// ==========================================
+// 8. Offline PWA Service Worker Registration
+// ==========================================
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then(reg => {
+            console.log('Service Worker Registered Successfully!', reg);
+        }).catch(err => {
+            console.log('Service Worker Registration Failed:', err);
+        });
+    });
+}
+            
