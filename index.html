@@ -833,3 +833,10 @@ TOOLS.push(
 );
 /* ====== فائل: index.html | حصہ 11 (اپ گریڈ) END ====== */
 </script>
+<script>
+/* ===== FIX — PART 12 ===== */
+$('tool-back').onclick = () => { $('tool-view').classList.add('hidden'); $('tools-list-view').classList.remove('hidden'); renderTools(); };
+$('tool-search').oninput = e => { toolSearch = e.target.value; renderTools(); };
+$('chip-bookmarks').onclick = () => { bmOnly = !bmOnly; $('chip-bookmarks').classList.toggle('active', bmOnly); renderTools(); };
+/* ====== فائل: index.html | حصہ 12 END ====== */
+</script>
